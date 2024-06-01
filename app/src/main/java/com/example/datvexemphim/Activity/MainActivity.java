@@ -10,6 +10,10 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.datvexemphim.R;
+import com.example.datvexemphim.Services.AuthenticationService;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -29,9 +33,10 @@ public class MainActivity extends AppCompatActivity {
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent register_layout = new Intent(MainActivity.this, Home.class);
-                startActivity(register_layout);
-                finish();
+                Map<String, String> login = new HashMap<>();
+                login.put("username", username.getText().toString().trim());
+                login.put("password", password.getText().toString().trim());
+                AuthenticationService.login(login, MainActivity.this);
             }
         });
         signUp.setOnClickListener(new View.OnClickListener(){

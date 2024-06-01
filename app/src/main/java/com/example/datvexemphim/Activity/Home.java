@@ -30,7 +30,6 @@ public class Home extends AppCompatActivity {
                 replaceFragment(new HomeFragment());
             } else if (itemId == R.id.phim) {
                 replaceFragment(new MovieFragment());
-
             } else if (itemId == R.id.history) {
                 replaceFragment(new HistoryFragment());
             } else if (itemId == R.id.setting) {

@@ -11,7 +11,12 @@ import android.widget.Toast;
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.datvexemphim.Model.Account;
 import com.example.datvexemphim.R;
+import com.example.datvexemphim.Services.AuthenticationService;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class SignUp extends AppCompatActivity {
 
@@ -63,18 +68,27 @@ public class SignUp extends AppCompatActivity {
                     return;
                 }
                 if(password.getText().toString().trim().isEmpty()){
-                    Toast.makeText(SignUp.this, "Passưord cannot empty", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(SignUp.this, "Password cannot empty", Toast.LENGTH_SHORT).show();
                     return;
                 }
                 if(rePassword.getText().toString().trim().isEmpty()){
+                    Toast.makeText(SignUp.this, "Retyped password cannot empty", Toast.LENGTH_SHORT).show();
                     return;
                 }
-                if(password.getText().toString().trim().equals(rePassword.getText().toString().trim())){
-                    Toast.makeText(SignUp.this, "Success", Toast.LENGTH_SHORT).show();
+                if(!password.getText().toString().trim().equals(rePassword.getText().toString().trim())){
+                    Toast.makeText(SignUp.this, "Passwords do not match", Toast.LENGTH_SHORT).show();
                 }
                 else{
-                    Toast.makeText(SignUp.this, "Passwords do not match", Toast.LENGTH_SHORT).show();
-                    return;
+                    Map<String, Object> dataAccount = new HashMap<>();
+                    Map<String, Object> dataKhachHang = new HashMap<>();
+                    dataAccount.put("tk", username.getText().toString().trim());
+                    dataAccount.put("mk", password.getText().toString().trim());
+                    dataAccount.put("email", mail.getText().toString().trim());
+                    dataKhachHang.put("ten", name.getText().toString().trim());
+                    dataKhachHang.put("cccd", cccd.getText().toString().trim());
+                    dataKhachHang.put("diaChi", address.getText().toString().trim());
+                    dataKhachHang.put("gioiTinh", "nam");
+                    AuthenticationService.register(dataAccount, SignUp.this, dataKhachHang);
                 }
             }
         });
