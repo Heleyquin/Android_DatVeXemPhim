@@ -15,5 +15,5 @@ public interface AuthenticationAPIService extends APIService {
     Call<JsonElement> login(@Body Map<String, String> account);
 
     @POST("api/auth/account/register")
-    Call<Void> register(@Body Map<String, Object> data);
+    Call<Void> register(@Body Map<String, String> data);
 }

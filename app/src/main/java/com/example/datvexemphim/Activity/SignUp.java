@@ -79,16 +79,15 @@ public class SignUp extends AppCompatActivity {
                     Toast.makeText(SignUp.this, "Passwords do not match", Toast.LENGTH_SHORT).show();
                 }
                 else{
-                    Map<String, Object> dataAccount = new HashMap<>();
-                    Map<String, Object> dataKhachHang = new HashMap<>();
-                    dataAccount.put("tk", username.getText().toString().trim());
-                    dataAccount.put("mk", password.getText().toString().trim());
-                    dataAccount.put("email", mail.getText().toString().trim());
-                    dataKhachHang.put("ten", name.getText().toString().trim());
-                    dataKhachHang.put("cccd", cccd.getText().toString().trim());
-                    dataKhachHang.put("diaChi", address.getText().toString().trim());
-                    dataKhachHang.put("gioiTinh", "nam");
-                    AuthenticationService.register(dataAccount, SignUp.this, dataKhachHang);
+                    Map<String, String> data = new HashMap<>();
+                    data.put("username", username.getText().toString().trim());
+                    data.put("password", password.getText().toString().trim());
+                    data.put("email", mail.getText().toString().trim());
+                    data.put("ten", name.getText().toString().trim());
+                    data.put("cccd", cccd.getText().toString().trim());
+                    data.put("diaChi", address.getText().toString().trim());
+                    data.put("gioiTinh", "nam");
+                    AuthenticationService.register(data, SignUp.this);
                 }
             }
         });

@@ -49,41 +49,15 @@ public class AuthenticationService {
         });
     }
 
-    public static void register(Map<String, Object> dataAccount, Context context, Map<String, Object> dataKhachHang) {
-        AuthenticationAPIService.service.register(dataAccount).enqueue(new Callback<Void>() {
+    public static void register(Map<String, String> data, Context context) {
+        KhachHangAPIService.service.addKhachHang(data).enqueue(new Callback<Void>() {
             @Override
             public void onResponse(@NonNull Call<Void> call, @NonNull Response<Void> response) {
                 if (response.isSuccessful()) {
-                    AccountAPIService.service.getAccountByUsername(dataAccount.get("tk").toString()).enqueue(new Callback<Account>() {
-                        @Override
-                        public void onResponse(@NonNull Call<Account> call, @NonNull Response<Account> response) {
-                            dataKhachHang.put("account", response.body());
-                            KhachHangAPIService.service.addKhachHang(dataKhachHang).enqueue(new Callback<Void>() {
-                                @Override
-                                public void onResponse(Call<Void> call, Response<Void> response) {
-                                    if (response.isSuccessful()) {
-                                        Toast.makeText(context, "Đăng kí thành công", Toast.LENGTH_SHORT).show();
-                                        context.startActivity(new Intent(context, MainActivity.class));
-                                    }
-                                }
-
-                                @Override
-                                public void onFailure(Call<Void> call, Throwable t) {
-                                    Toast.makeText(context, "Thêm khách hàng thất bại", Toast.LENGTH_SHORT).show();
-
-                                }
-                            });
-                        }
-
-                        @Override
-                        public void onFailure(@NonNull Call<Account> call, @NonNull Throwable t) {
-                            Toast.makeText(context, "Lấy tài khoản thất bại", Toast.LENGTH_SHORT).show();
-
-                        }
-                    });
+                    Toast.makeText(context, "Đăng kí thành công", Toast.LENGTH_SHORT).show();
+                    context.startActivity(new Intent(context, MainActivity.class));
                 }
             }
-
             @Override
             public void onFailure(@NonNull Call<Void> call, @NonNull Throwable t) {
                 Toast.makeText(context, "Thêm tài khoản thất bại", Toast.LENGTH_SHORT).show();

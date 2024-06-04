@@ -12,6 +12,6 @@ public interface KhachHangAPIService extends APIService {
     KhachHangAPIService service = BUILDER.create(KhachHangAPIService.class);
 
     @POST("api/auth/khachHang")
-    Call<Void> addKhachHang(@Body Map<String, Object> khachHang);
+    Call<Void> addKhachHang(@Body Map<String, String> khachHang);
 
 }
