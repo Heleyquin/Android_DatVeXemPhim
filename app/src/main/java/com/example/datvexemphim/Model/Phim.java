@@ -8,7 +8,7 @@ public class Phim implements Serializable {
     private String anh;
     private String ten;
     private String quocGia;
-    private Date namPhatHanh;
+    private String namPhatHanh;
     private String trangthai;
     private int thoiLuong;
     private String moTa;
@@ -18,7 +18,7 @@ public class Phim implements Serializable {
     public Phim() {
     }
 
-    public Phim(int idPhim, String anh, String ten, String quocGia, Date namPhatHanh, String trangthai, int thoiLuong, String moTa, boolean doTuoi, int id_admin) {
+    public Phim(int idPhim, String anh, String ten, String quocGia, String namPhatHanh, String trangthai, int thoiLuong, String moTa, boolean doTuoi, int id_admin) {
         this.idPhim = idPhim;
         this.anh = anh;
         this.ten = ten;
@@ -63,11 +63,11 @@ public class Phim implements Serializable {
         this.quocGia = quocGia;
     }
 
-    public Date getNamPhatHanh() {
+    public String getNamPhatHanh() {
         return namPhatHanh;
     }
 
-    public void setNamPhatHanh(Date namPhatHanh) {
+    public void setNamPhatHanh(String namPhatHanh) {
         this.namPhatHanh = namPhatHanh;
     }
 
