@@ -17,7 +17,10 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.datvexemphim.Adapter.MoviesAdapter;
+import com.example.datvexemphim.Model.Phim;
 import com.example.datvexemphim.R;
+
+import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -36,6 +39,7 @@ public class HomeFragment extends Fragment implements MoviesAdapter.ItemInterfac
     private String mParam2;
     private RecyclerView rvMainDisplay;
     private MoviesAdapter adapter;
+    private List<Phim> data;
 
     public HomeFragment() {
         // Required empty public constructor
@@ -87,14 +91,9 @@ public class HomeFragment extends Fragment implements MoviesAdapter.ItemInterfac
     }
     @Override
     public void onItemClick(View view, int position) {
-//        Intent intent = new Intent(view.getContext(), Movie_Detail.class);
-//        intent.putExtra("item", adapter.getItem(position));
-//        startActivity(intent);
-    }
-
-    @Override
-    public void OnItemLongClick(View view, int position) {
-
+        Intent intent = new Intent(view.getContext(), Movie_Detail.class);
+        intent.putExtra("movie", adapter.getItem(position));
+        startActivity(intent);
     }
 
 }

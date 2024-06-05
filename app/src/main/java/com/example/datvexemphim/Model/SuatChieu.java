@@ -1,14 +1,12 @@
 package com.example.datvexemphim.Model;
 
 import java.io.Serializable;
-import java.util.Date;
 
 public class SuatChieu implements Serializable {
     private int idSuatChieu;
-    private Date giaBatDau;
-    private int thoiLuong;
+    private String gioBatDau;
     private String ngonNgu;
-    private Date ngayChieu;
+    private String ngayChieu;
     private String sub;
     private double gia;
     private int id_admin;
@@ -17,10 +15,9 @@ public class SuatChieu implements Serializable {
     public SuatChieu() {
     }
 
-    public SuatChieu(int idSuatChieu, Date giaBatDau, int thoiLuong, String ngonNgu, Date ngayChieu, String sub, double gia, int id_admin, int id_phim) {
+    public SuatChieu(int idSuatChieu, String gioBatDau, String ngonNgu, String ngayChieu, String sub, double gia, int id_admin, int id_phim) {
         this.idSuatChieu = idSuatChieu;
-        this.giaBatDau = giaBatDau;
-        this.thoiLuong = thoiLuong;
+        this.gioBatDau = gioBatDau;
         this.ngonNgu = ngonNgu;
         this.ngayChieu = ngayChieu;
         this.sub = sub;
@@ -37,20 +34,12 @@ public class SuatChieu implements Serializable {
         this.idSuatChieu = idSuatChieu;
     }
 
-    public Date getGiaBatDau() {
-        return giaBatDau;
+    public String getGioBatDau() {
+        return gioBatDau;
     }
 
-    public void setGiaBatDau(Date giaBatDau) {
-        this.giaBatDau = giaBatDau;
-    }
-
-    public int getThoiLuong() {
-        return thoiLuong;
-    }
-
-    public void setThoiLuong(int thoiLuong) {
-        this.thoiLuong = thoiLuong;
+    public void setGioBatDau(String giaBatDau) {
+        this.gioBatDau = giaBatDau;
     }
 
     public String getNgonNgu() {
@@ -61,11 +50,11 @@ public class SuatChieu implements Serializable {
         this.ngonNgu = ngonNgu;
     }
 
-    public Date getNgayChieu() {
+    public String getNgayChieu() {
         return ngayChieu;
     }
 
-    public void setNgayChieu(Date ngayChieu) {
+    public void setNgayChieu(String ngayChieu) {
         this.ngayChieu = ngayChieu;
     }
 
