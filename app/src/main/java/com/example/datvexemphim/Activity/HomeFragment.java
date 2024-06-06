@@ -82,8 +82,8 @@ public class HomeFragment extends Fragment implements MoviesAdapter.ItemInterfac
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         rvMainDisplay = view.findViewById(R.id.rvMainDisplay);
-        setData();
         adapter.tempData();
+        setData();
     }
     private void setData() {
         rvMainDisplay.setLayoutManager(new LinearLayoutManager(getContext()));

@@ -11,7 +11,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public interface APIService {
     Retrofit BUILDER = new Retrofit.Builder()
 //            .baseUrl("http://10.0.2.2:8080/") //nếu chạy máy ảo
-            .baseUrl("http://192.168.1.19:8080/") //địa chỉ ip của máy tính
+            .baseUrl("http://192.168.1.15:8080/") //địa chỉ ip của máy tính
             .client(new OkHttpClient.Builder().addInterceptor(new CustomInterceptor()).build())
             .client(OkHttpProvider.getOkHttpClient())
             .addConverterFactory(GsonConverterFactory.create(new GsonBuilder().setDateFormat("yyyy-MM-dd").create()))
