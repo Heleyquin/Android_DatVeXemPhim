@@ -15,6 +15,9 @@
         android:theme="@style/Theme.DatVeXemPhim"
         tools:targetApi="31">
         <activity
+            android:name=".Activity.Movie_Detail"
+            android:exported="false" />
+        <activity
             android:name=".Activity.Home"
             android:exported="false" />
         <activity

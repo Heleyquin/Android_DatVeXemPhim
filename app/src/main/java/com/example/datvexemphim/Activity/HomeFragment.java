@@ -1,20 +1,33 @@
 package com.example.datvexemphim.Activity;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
+import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.datvexemphim.Adapter.MoviesAdapter;
+import com.example.datvexemphim.Model.Phim;
 import com.example.datvexemphim.R;
+
+import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
  * Use the {@link HomeFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class HomeFragment extends Fragment {
+public class HomeFragment extends Fragment implements MoviesAdapter.ItemInterface{
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -24,6 +37,9 @@ public class HomeFragment extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+    private RecyclerView rvMainDisplay;
+    private MoviesAdapter adapter;
+    private List<Phim> data;
 
     public HomeFragment() {
         // Required empty public constructor
@@ -55,11 +71,29 @@ public class HomeFragment extends Fragment {
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
     }
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_home, container, false);
+        adapter = new MoviesAdapter(this);
+        return inflater.inflate(R.layout.fragment_phim, container, false);
     }
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        rvMainDisplay = view.findViewById(R.id.rvMainDisplay);
+        setData();
+        adapter.tempData();
+    }
+    private void setData() {
+        rvMainDisplay.setLayoutManager(new LinearLayoutManager(getContext()));
+        rvMainDisplay.setAdapter(adapter);
+    }
+    @Override
+    public void onItemClick(View view, int position) {
+        Intent intent = new Intent(view.getContext(), Movie_Detail.class);
+        intent.putExtra("movie", adapter.getItem(position));
+        startActivity(intent);
+    }
+
 }
