@@ -53,7 +53,9 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.ItemViewHo
     public Phim getItem(int pos) {
         return data.get(pos);
     }
-
+    public List<Phim> getAll(){
+        return data;
+    }
     @SuppressLint("DefaultLocale")
     @Override
     public void onBindViewHolder(@NonNull ItemViewHolder holder, int position) {

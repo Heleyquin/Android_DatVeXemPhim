@@ -20,6 +20,7 @@ import com.example.datvexemphim.Adapter.MoviesAdapter;
 import com.example.datvexemphim.Model.Phim;
 import com.example.datvexemphim.R;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -93,6 +94,7 @@ public class HomeFragment extends Fragment implements MoviesAdapter.ItemInterfac
     public void onItemClick(View view, int position) {
         Intent intent = new Intent(view.getContext(), Movie_Detail.class);
         intent.putExtra("movie", adapter.getItem(position));
+        intent.putExtra("phim",(Serializable) adapter.getAll());
         startActivity(intent);
     }
 

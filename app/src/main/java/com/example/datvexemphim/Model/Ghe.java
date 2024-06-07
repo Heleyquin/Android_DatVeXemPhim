@@ -8,6 +8,7 @@ public class Ghe implements Serializable {
     private String hangGhe;
     private String soGhe;
     private int id_phong;
+//    private int trang_thai; //0: empty, 1: Đang chọn, 2: Đã bán
 
     public Ghe() {
     }
