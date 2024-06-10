@@ -29,11 +29,9 @@ public class Home extends AppCompatActivity {
             if(itemId == R.id.home){
                 replaceFragment(new HomeFragment());
             } else if (itemId == R.id.phim) {
-                replaceFragment(new MovieFragment());
+                replaceFragment(new RapFragment());
 
-            } else if (itemId == R.id.history) {
-                replaceFragment(new HistoryFragment());
-            } else if (itemId == R.id.setting) {
+            }else if (itemId == R.id.setting) {
                 replaceFragment(new SettingFragment());
             }
 //            switch (item.getItemId()) {
@@ -41,7 +39,7 @@ public class Home extends AppCompatActivity {
 //                    replaceFragment(new HomeFragment());
 //                    break;
 //                case R.id.phim:
-//                    replaceFragment(new MovieFragment());
+//                    replaceFragment(new RapFragment());
 //                    break;
 //                case R.id.history:
 //                    replaceFragment(new HistoryFragment());

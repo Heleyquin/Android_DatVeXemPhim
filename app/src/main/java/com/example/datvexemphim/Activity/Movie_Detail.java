@@ -3,6 +3,7 @@ package com.example.datvexemphim.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.InputQueue;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -44,6 +45,7 @@ public class Movie_Detail extends AppCompatActivity implements NgayChieuAdapter.
     private List<Phong> dsPhong;
     private List<Ghe> dsGhe;
     private List<Phim> listPhim;
+    private Rap rap;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -98,7 +100,7 @@ public class Movie_Detail extends AppCompatActivity implements NgayChieuAdapter.
 
 
     private void setAdapterrvRap() {
-        rvRap.addItemDecoration(new SpaceItemDecoration(15));
+        rvRap.addItemDecoration(new SpaceItemDecoration(200));
         rvRap.setLayoutManager(new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.VERTICAL, false));
         rvRap.setAdapter(rapAdapter);
     }

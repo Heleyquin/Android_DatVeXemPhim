@@ -1,29 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:gravity="center"
-    android:layout_gravity="center"
-    android:background="@color/yellow">
+    tools:context=".Activity.PhimByRap">
     <TextView
         android:id="@+id/tvTenRap"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Tên rạp"
-        android:textSize="40dp"
-        android:textStyle="bold"
-        android:padding="5dp"
-        android:background="@drawable/round_rv"
-        android:layout_gravity="center"/>
+        android:text="Ten rap"
+        android:textSize="30dp"
+        android:layout_marginTop="30dp"
+        android:layout_marginBottom="10dp"
+        android:textStyle="bold" />
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rvNgayChieu"
+        android:id="@+id/rvPhim"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:background="@color/yellow">
-
+        android:layout_marginHorizontal="15dp"
+        android:layout_marginTop="5dp"
+        android:background="@drawable/bgv_recycle"
+        android:padding="10dp">
     </androidx.recyclerview.widget.RecyclerView>
-
 
 </LinearLayout>

@@ -24,17 +24,34 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
+import java.util.Map;
+import java.util.HashMap;
+
 
 public class GheNgoiAdapter extends RecyclerView.Adapter<GheNgoiAdapter.ItemViewHolder> {
     List<Ghe> listGhe;
     List<Ve> listVe;
     List<HoaDon> listHoaDon;
+    Map<Ghe, Integer> gheStatusMap;//0 chưa chon; 1// Đang cn; 2//Khong duoc chon
     private ItemInterface itemInterface;
+    private int size;
 
     public GheNgoiAdapter(ItemInterface itemInterface) {
+
         this.itemInterface = itemInterface;
+        size = 0;
     }
 
+    private void gheStatus() {
+        gheStatusMap = new HashMap<>();
+        for (Ghe ghe : listGhe) {
+            gheStatusMap.put(ghe, 0);
+        }
+    }
+
+    public void setSize(){
+        this.size = 0;
+    }
     @NonNull
     @Override
     public GheNgoiAdapter.ItemViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -43,10 +60,11 @@ public class GheNgoiAdapter extends RecyclerView.Adapter<GheNgoiAdapter.ItemView
     }
 
     @SuppressLint("NotifyDataSetChanged")
-    public void setData(List<Ghe> list) {
+    public void setData(List<Ghe> list, List<Ve> listVe, List<HoaDon> listHoaDon) {
         this.listGhe = list;
-        taoVe();
-        taoHoaDon();
+        this.listVe = listVe;
+        this.listHoaDon = listHoaDon;
+        gheStatus();
         notifyDataSetChanged();
     }
 
@@ -58,27 +76,31 @@ public class GheNgoiAdapter extends RecyclerView.Adapter<GheNgoiAdapter.ItemView
                 .collect(Collectors.toSet());
         if (temp.contains(ghe.getIdGhe())) {
             holder.ivGhe.setBackgroundResource(R.drawable.baseline_event_seat_24_sold);
+            holder.ivGhe.setEnabled(false);
+            gheStatusMap.put(ghe, 2);
+//            Log.e("HashMap",gheStatusMap.toString());
         } else {
             holder.ivGhe.setBackgroundResource(R.drawable.baseline_event_seat_24_none);
+//            holder.ivGhe.setTag(R.drawable.baseline_event_seat_24_none);
         }
-//        holder.ivGhe.setBackgroundResource(R.drawable.baseline_event_seat_24_none);
         holder.tvGhe.setText(String.valueOf(ghe.getIdGhe()));
 
     }
 
-    public Ghe getItem(int pos){
+    public Ghe getItem(int pos) {
         return listGhe.get(pos);
     }
+
     @Override
     public int getItemCount() {
-        if(listGhe != null){
+        if (listGhe != null) {
             return listGhe.size();
         }
         return 0;
     }
 
     public interface ItemInterface {
-        void onItemClick(SuatChieu suat, List<Ghe> listGhe, Phim phim);
+        void onItemClick(int id_Ghe, int status);
     }
 
     public void taoVe() {
@@ -110,6 +132,24 @@ public class GheNgoiAdapter extends RecyclerView.Adapter<GheNgoiAdapter.ItemView
             ivGhe.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    Ghe ghe = listGhe.get(getAdapterPosition());
+                    if(size < 4){
+                        if (gheStatusMap.get(ghe) == 0 ) {
+                            ivGhe.setBackgroundResource(R.drawable.baseline_event_seat_24_selected);
+                            gheStatusMap.put(ghe, 1);
+                            itemInterface.onItemClick(Integer.parseInt(tvGhe.getText().toString()), 1);
+                            size += 1;
+                        } else if (gheStatusMap.get(ghe) == 1) {
+                            ivGhe.setBackgroundResource(R.drawable.baseline_event_seat_24_none);
+                            gheStatusMap.put(ghe, 0);
+                            itemInterface.onItemClick(Integer.parseInt(tvGhe.getText().toString()), 0);
+                            size -= 1;
+                        }else{
+                            itemInterface.onItemClick(Integer.parseInt(tvGhe.getText().toString()), -1);
+                        }
+                    }else{
+
+                    }
 
                 }
             });

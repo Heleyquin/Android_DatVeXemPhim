@@ -1,16 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Activity.MovieFragment">
+    android:orientation="vertical"
+    android:background="@color/gray"
+    tools:context=".Activity.RapFragment">
 
-    <!-- TODO: Update blank fragment layout -->
     <TextView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="Movie"
-        android:textSize="100dp"
-        tools:ignore="HardcodedText,SpUsage" />
+        android:layout_height="wrap_content"
+        android:text="CHỌN RẠP"
+        android:textSize="40dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp"
+        android:textStyle="bold" />
 
-</FrameLayout>
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvRap"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginHorizontal="15dp"
+        android:background="@color/white"
+        android:padding="10dp"
+        android:layout_marginTop="5dp">
+
+    </androidx.recyclerview.widget.RecyclerView>
+
+</LinearLayout>

@@ -1,6 +1,7 @@
 package com.example.datvexemphim.Model;
 
 import java.io.Serializable;
+import java.util.Objects;
 
 public class Ghe implements Serializable {
     private int idGhe;
@@ -59,5 +60,18 @@ public class Ghe implements Serializable {
 
     public void setId_phong(int id_phong) {
         this.id_phong = id_phong;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Ghe)) return false;
+        Ghe ghe = (Ghe) o;
+        return getIdGhe() == ghe.getIdGhe();
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getIdGhe());
     }
 }

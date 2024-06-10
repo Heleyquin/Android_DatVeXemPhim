@@ -2,18 +2,18 @@
 <menu xmlns:tools="http://schemas.android.com/tools"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <item android:title="Lịch chiếu phim"
+    <item android:title="Phim"
         android:icon="@drawable/baseline_chalet_24"
         android:id="@+id/home"
         tools:ignore="HardcodedText" />
-    <item android:title="Lịch chiếu rạp"
+    <item android:title="Rạp"
         android:icon="@drawable/baseline_camera_indoor_24"
         android:id="@+id/phim"
         tools:ignore="HardcodedText" />
-    <item android:title="Lịch sử"
-        android:icon="@drawable/baseline_history_24"
-        android:id="@+id/history"
-        tools:ignore="HardcodedText" />
+<!--    <item android:title="Lịch sử"-->
+<!--        android:icon="@drawable/baseline_history_24"-->
+<!--        android:id="@+id/history"-->
+<!--        tools:ignore="HardcodedText" />-->
     <item android:title="Cài đặt"
         android:icon="@drawable/baseline_app_settings_alt_24"
         android:id="@+id/setting"

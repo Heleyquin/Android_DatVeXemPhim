@@ -15,6 +15,12 @@
         android:theme="@style/Theme.DatVeXemPhim"
         tools:targetApi="31">
         <activity
+            android:name=".Activity.PhimByRap"
+            android:exported="false" />
+        <activity
+            android:name=".Activity.MovieByRap"
+            android:exported="false" />
+        <activity
             android:name=".Activity.ChonGhe"
             android:exported="false" />
         <activity
