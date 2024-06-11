@@ -11,11 +11,12 @@ public class SuatChieu implements Serializable {
     private double gia;
     private int id_admin;
     private int id_phim;
+    private int id_phong;
 
     public SuatChieu() {
     }
 
-    public SuatChieu(int idSuatChieu, String gioBatDau, String ngonNgu, String ngayChieu, String sub, double gia, int id_admin, int id_phim) {
+    public SuatChieu(int idSuatChieu, String gioBatDau, String ngonNgu, String ngayChieu, String sub, double gia, int id_admin, int id_phim, int idPhong) {
         this.idSuatChieu = idSuatChieu;
         this.gioBatDau = gioBatDau;
         this.ngonNgu = ngonNgu;
@@ -24,8 +25,15 @@ public class SuatChieu implements Serializable {
         this.gia = gia;
         this.id_admin = id_admin;
         this.id_phim = id_phim;
+        id_phong = idPhong;
+    }
+    public int getId_phong() {
+        return id_phong;
     }
 
+    public void setId_phong(int id_phong) {
+        this.id_phong = id_phong;
+    }
     public int getIdSuatChieu() {
         return idSuatChieu;
     }

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:gravity="center"
+    android:layout_gravity="center"
+    android:background="@color/yellow">
+    <TextView
+        android:id="@+id/tvTenRap"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Tên rạp"
+        android:textSize="40dp"
+        android:textStyle="bold"
+        android:padding="5dp"
+        android:background="@drawable/round_rv"
+        android:layout_gravity="center"/>
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvNgayChieu"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:background="@color/yellow">
+
+    </androidx.recyclerview.widget.RecyclerView>
+
+
+</LinearLayout>

@@ -20,6 +20,7 @@ import com.example.datvexemphim.Adapter.MoviesAdapter;
 import com.example.datvexemphim.Model.Phim;
 import com.example.datvexemphim.R;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -75,7 +76,7 @@ public class HomeFragment extends Fragment implements MoviesAdapter.ItemInterfac
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        adapter = new MoviesAdapter(this);
+        adapter = new MoviesAdapter(this, getContext());
         return inflater.inflate(R.layout.fragment_phim, container, false);
     }
     @Override
@@ -92,7 +93,9 @@ public class HomeFragment extends Fragment implements MoviesAdapter.ItemInterfac
     @Override
     public void onItemClick(View view, int position) {
         Intent intent = new Intent(view.getContext(), Movie_Detail.class);
+
         intent.putExtra("movie", adapter.getItem(position));
+        intent.putExtra("phim",(Serializable) adapter.getAll());
         startActivity(intent);
     }
 
