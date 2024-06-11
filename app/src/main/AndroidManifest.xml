@@ -14,8 +14,17 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.DatVeXemPhim"
-        tools:targetApi="31"
-        tools:ignore="AppLinkUrlError">
+        tools:ignore="AppLinkUrlError"
+        tools:targetApi="31">
+        <activity
+            android:name=".Activity.SettingFragment.Detail_Account"
+            android:exported="false" />
+        <activity
+            android:name=".Activity.SettingFragment.History"
+            android:exported="false" />
+        <activity
+            android:name=".Activity.SettingFragment.User"
+            android:exported="false" />
         <activity
             android:name=".Activity.RapFragment.ByRap_Movie_Detail"
             android:exported="false" />
@@ -28,10 +37,13 @@
             android:launchMode="singleTask">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
+
                 <category android:name="android.intent.catagory.DEFAULT" />
-                <category android:name="android.intent.category.BROWSABLE"/>
-                <data android:scheme="demozpdk"
-                    android:host="app"/>
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data
+                    android:host="app"
+                    android:scheme="demozpdk" />
             </intent-filter>
         </activity>
         <activity

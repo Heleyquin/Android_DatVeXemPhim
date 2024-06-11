@@ -1,5 +1,6 @@
 package com.example.datvexemphim.Activity.PhimFragment;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -8,6 +9,7 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.widget.SearchView;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -20,6 +22,7 @@ import com.example.datvexemphim.R;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -38,8 +41,9 @@ public class HomeFragment extends Fragment implements MoviesAdapter.ItemInterfac
     private String mParam2;
     private RecyclerView rvMainDisplay;
     private MoviesAdapter adapter;
-    private List<Phim> data;
+    private List<Phim> dataFul, dataFil;
     private List<SuatChieu> dsSuat;
+    private SearchView svSearch;
 
     public HomeFragment() {
         // Required empty public constructor
@@ -81,10 +85,35 @@ public class HomeFragment extends Fragment implements MoviesAdapter.ItemInterfac
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+        svSearch = view.findViewById(R.id.SearchBar);
         rvMainDisplay = view.findViewById(R.id.rvMainDisplay);
+
         tempData();
         setData();
-        adapter.setData(data, dsSuat);
+        adapter.setData(dataFul, dsSuat);
+        svSearch.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                filter(query);
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                filter(newText);
+                return false;
+            }
+            @SuppressLint("NotifyDataSetChanged")
+            private void filter(String s) {
+                dataFul.clear();
+                dataFul.addAll(dataFil.stream()
+                        .filter(phim -> phim.getTen().toLowerCase().contains(s.toLowerCase()))
+                        .collect(Collectors.toList()));
+                adapter.notifyDataSetChanged();
+            }
+        });
+
     }
     private void setData() {
         rvMainDisplay.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -99,12 +128,14 @@ public class HomeFragment extends Fragment implements MoviesAdapter.ItemInterfac
         startActivity(intent);
     }
     public void tempData(){
-        data = new ArrayList<>();
-        data.add(new Phim(1, "https://files.betacorp.vn/media%2fimages%2f2024%2f05%2f28%2f310524%2Dgarfield%2D150640%2D280524%2D95.jpg", "Phim1", "QuocGia", "29/06/2015","Trang thai", 102, "Mo ta", true, 1));
-        data.add(new Phim(2, "https://files.betacorp.vn/media%2fimages%2f2024%2f04%2f24%2f240524%2Ddraft%2Ddoraemon%2D170958%2D240424%2D90.png", "Phim2", "QuocGia", "03/05/2024", "Trang thai", 95, "Mo ta", true, 1));
-        data.add(new Phim(3, "https://files.betacorp.vn/media%2fimages%2f2024%2f05%2f27%2f400x633%2D7%2D151139%2D270524%2D46.jpg", "Phim3", "QuocGia", "23/04/2024", "Trang thai", 120, "Mo ta", false, 1));
-        data.add(new Phim(4, "https://files.betacorp.vn/media%2fimages%2f2024%2f05%2f24%2f400x633%2D6%2D103906%2D240524%2D41.jpg", "Phim4", "QuocGia", "22/04/2024", "Trang thai", 84, "Mo ta", true, 1));
-        data.add(new Phim(5, "https://files.betacorp.vn/media%2fimages%2f2024%2f05%2f28%2f070624%2Dsneak%2Dmong%2Dvuot%2D150957%2D280524%2D53.jpg", "Phim5", "QuocGia", "11/04/2024", "Trang thai", 99, "Mo ta", true, 1));
+        dataFil = new ArrayList<>();
+        dataFil.add(new Phim(1, "https://files.betacorp.vn/media%2fimages%2f2024%2f05%2f28%2f310524%2Dgarfield%2D150640%2D280524%2D95.jpg", "Phim1", "QuocGia", "29/06/2015","Trang thai", 102, "Mo ta", true, 1));
+        dataFil.add(new Phim(2, "https://files.betacorp.vn/media%2fimages%2f2024%2f04%2f24%2f240524%2Ddraft%2Ddoraemon%2D170958%2D240424%2D90.png", "Phim2", "QuocGia", "03/05/2024", "Trang thai", 95, "Mo ta", true, 1));
+        dataFil.add(new Phim(3, "https://files.betacorp.vn/media%2fimages%2f2024%2f05%2f27%2f400x633%2D7%2D151139%2D270524%2D46.jpg", "Phim3", "QuocGia", "23/04/2024", "Trang thai", 120, "Mo ta", false, 1));
+        dataFil.add(new Phim(4, "https://files.betacorp.vn/media%2fimages%2f2024%2f05%2f24%2f400x633%2D6%2D103906%2D240524%2D41.jpg", "Phim4", "QuocGia", "22/04/2024", "Trang thai", 84, "Mo ta", true, 1));
+        dataFil.add(new Phim(5, "https://files.betacorp.vn/media%2fimages%2f2024%2f05%2f28%2f070624%2Dsneak%2Dmong%2Dvuot%2D150957%2D280524%2D53.jpg", "Phim5", "QuocGia", "11/04/2024", "Trang thai", 99, "Mo ta", true, 1));
+        dataFul = new ArrayList<>();
+        dataFul.addAll(dataFil);
         dsSuat = new ArrayList<>();
         dsSuat.add(new SuatChieu(1, "10:30", "English", "05/06/2024", "VietSub", 100000, 1, 1, 1));
         dsSuat.add(new SuatChieu(2, "12:30", "English", "05/06/2024", "VietSub", 100000, 1, 1, 1));
