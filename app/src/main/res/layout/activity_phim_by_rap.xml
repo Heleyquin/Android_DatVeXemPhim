@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    tools:context=".Activity.PhimByRap">
+    tools:context=".Activity.RapFragment.PhimByRap">
     <TextView
         android:id="@+id/tvTenRap"
         android:layout_width="match_parent"

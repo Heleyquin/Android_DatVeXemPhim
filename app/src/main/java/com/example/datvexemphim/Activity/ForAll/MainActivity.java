@@ -1,4 +1,4 @@
-package com.example.datvexemphim.Activity;
+package com.example.datvexemphim.Activity.ForAll;
 
 import android.content.Intent;
 import android.os.Bundle;

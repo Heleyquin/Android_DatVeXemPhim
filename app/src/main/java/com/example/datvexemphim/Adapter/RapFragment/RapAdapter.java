@@ -6,15 +6,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-
 import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.ConcatAdapter;
 import androidx.recyclerview.widget.RecyclerView;
-
-import com.example.datvexemphim.Adapter.MoviesAdapter;
 import com.example.datvexemphim.Model.Rap;
 import com.example.datvexemphim.R;
-
 import java.util.List;
 
 public class RapAdapter extends RecyclerView.Adapter<RapAdapter.ItemViewHolder> {

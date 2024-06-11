@@ -1,4 +1,4 @@
-package com.example.datvexemphim.Activity;
+package com.example.datvexemphim.Activity.ForAll;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
@@ -8,6 +8,9 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import com.example.datvexemphim.Activity.PhimFragment.HomeFragment;
+import com.example.datvexemphim.Activity.RapFragment.RapFragment;
+import com.example.datvexemphim.Activity.SettingFragment.SettingFragment;
 import com.example.datvexemphim.R;
 import com.example.datvexemphim.databinding.ActivityHomeBinding;
 

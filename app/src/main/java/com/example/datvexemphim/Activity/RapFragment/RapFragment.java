@@ -1,8 +1,7 @@
-package com.example.datvexemphim.Activity;
+package com.example.datvexemphim.Activity.RapFragment;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.RecoverySystem;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -120,12 +119,10 @@ public class RapFragment extends Fragment implements RapAdapter.ItemInterface{
         List<Phim> phimBySuat = getPhimBySuat(suatByRap);
 
         intent.putExtra("suats", (Serializable) suatByRap);
-        intent.putExtra("ghes", (Serializable) suatByRap);
+        intent.putExtra("ghes", (Serializable) dsGhe);
         intent.putExtra("phims",(Serializable) phimBySuat);
         intent.putExtra("rap", rapAdapter.getItem(position));
 
-//        intent.putExtra("phim",(Serializable) adapter.getAll());
-//        startActivity(intent);
         startActivity(intent);
     }
 

@@ -1,4 +1,4 @@
-package com.example.datvexemphim.Activity;
+package com.example.datvexemphim.Activity.SettingFragment;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
