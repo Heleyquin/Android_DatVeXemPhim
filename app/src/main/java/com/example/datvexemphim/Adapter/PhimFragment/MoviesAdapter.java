@@ -1,6 +1,4 @@
-package com.example.datvexemphim.Adapter;
-
-import static androidx.core.content.ContextCompat.startActivity;
+package com.example.datvexemphim.Adapter.PhimFragment;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -12,25 +10,27 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-import com.example.datvexemphim.Activity.ChonGhe;
-import com.example.datvexemphim.Activity.Movie_Detail;
+import com.example.datvexemphim.Activity.PhimFragment.Movie_Detail;
 import com.example.datvexemphim.Model.Phim;
+import com.example.datvexemphim.Model.Phong;
+import com.example.datvexemphim.Model.SuatChieu;
 import com.example.datvexemphim.R;
 
 import java.io.Serializable;
-import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.ItemViewHolder> {
     private final ItemInterface itemInterface;
     private List<Phim> data;
+    private List<SuatChieu> dsSuat;
     private Context context;
 
     public MoviesAdapter(ItemInterface itemInterface, Context context) {
@@ -39,18 +39,10 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.ItemViewHo
     }
 
     @SuppressLint("NotifyDataSetChanged")
-    public void setData(List<Phim> list) {
+    public void setData(List<Phim> list, List<SuatChieu> dsSuat) {
         this.data = list;
+        this.dsSuat = dsSuat;
         notifyDataSetChanged();
-    }
-    public void tempData(){
-        List<Phim> list = new ArrayList<>();
-        list.add(new Phim(1, "https://files.betacorp.vn/media%2fimages%2f2024%2f05%2f28%2f310524%2Dgarfield%2D150640%2D280524%2D95.jpg", "Phim1", "QuocGia", "29/06/2015","Trang thai", 102, "Mo ta", true, 1));
-        list.add(new Phim(2, "https://files.betacorp.vn/media%2fimages%2f2024%2f04%2f24%2f240524%2Ddraft%2Ddoraemon%2D170958%2D240424%2D90.png", "Phim2", "QuocGia", "03/05/2024", "Trang thai", 95, "Mo ta", true, 1));
-        list.add(new Phim(3, "https://files.betacorp.vn/media%2fimages%2f2024%2f05%2f27%2f400x633%2D7%2D151139%2D270524%2D46.jpg", "Phim3", "QuocGia", "23/04/2024", "Trang thai", 120, "Mo ta", false, 1));
-        list.add(new Phim(4, "https://files.betacorp.vn/media%2fimages%2f2024%2f05%2f24%2f400x633%2D6%2D103906%2D240524%2D41.jpg", "Phim4", "QuocGia", "22/04/2024", "Trang thai", 84, "Mo ta", true, 1));
-        list.add(new Phim(5, "https://files.betacorp.vn/media%2fimages%2f2024%2f05%2f28%2f070624%2Dsneak%2Dmong%2Dvuot%2D150957%2D280524%2D53.jpg", "Phim5", "QuocGia", "11/04/2024", "Trang thai", 99, "Mo ta", true, 1));
-        setData(list);
     }
     @NonNull
     @Override
@@ -58,7 +50,15 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.ItemViewHo
         View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_movie, parent, false);
         return new ItemViewHolder(v);
     }
+    public boolean phimCoSuat(int id_Phim){
+        for(SuatChieu suat:dsSuat){
+            if(suat.getId_phim() == id_Phim){
+                return true;
+            }
+        }
+        return false;
 
+    }
     public Phim getItem(int pos) {
         return data.get(pos);
     }
@@ -73,6 +73,10 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.ItemViewHo
         holder.tvTitle.setText(phim.getTen().toUpperCase());
         holder.tvDecript.setText(phim.getMoTa());
         holder.tvTime.setText(String.valueOf(phim.getThoiLuong()));
+//        Log.e("Cove", String.valueOf(phimCoSuat(phim.getIdPhim())));
+        if(!phimCoSuat(phim.getIdPhim())){
+            holder.btnDatVe.setVisibility(View.GONE);
+        }
         holder.btnDatVe.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

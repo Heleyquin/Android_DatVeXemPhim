@@ -1,12 +1,10 @@
-package com.example.datvexemphim.Adapter;
+package com.example.datvexemphim.Adapter.RapFragment;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -17,39 +15,46 @@ import com.example.datvexemphim.Model.Phim;
 import com.example.datvexemphim.Model.SuatChieu;
 import com.example.datvexemphim.R;
 
-import java.time.temporal.Temporal;
 import java.util.ArrayList;
 import java.util.List;
 
-public class NgayChieuAdapter extends RecyclerView.Adapter<NgayChieuAdapter.ItemViewHolder> {
+public class ByRapNgayChieuAdapter extends RecyclerView.Adapter<ByRapNgayChieuAdapter.ItemViewHolder> {
     private final ItemInterface itemInterface;
 
     private List<SuatChieu> data;
     private List<Ghe> listGhe;
-    private List<Phim> listPhim;
+    private Phim phim;
     private Context context;
 
-
-    public NgayChieuAdapter(Context context, ItemInterface itemInterface, List<Ghe> listGhe, List<Phim> listPhim) {
+    public ByRapNgayChieuAdapter(ItemInterface itemInterface, Context context) {
         this.itemInterface = itemInterface;
         this.context = context;
-        this.listGhe = listGhe;
-        this.listPhim = listPhim;
+    }
+    public int getSize(){
+        return listGhe.size();
     }
     @SuppressLint("NotifyDataSetChanged")
-    public void setData(List<SuatChieu> list) {
+    public void setData(List<SuatChieu> list, List<Ghe> listGhe, Phim phim){
         this.data = list;
+        this.listGhe = listGhe;
+        this.phim = phim;
         notifyDataSetChanged();
+    }
+    public interface ItemInterface {
+        void onItemClick(SuatChieu suat, List<Ghe> listGhe, Phim phim);
     }
     @NonNull
     @Override
-    public NgayChieuAdapter.ItemViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public ByRapNgayChieuAdapter.ItemViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.detail_date, parent, false);
         return new ItemViewHolder(v);
     }
 
+    public SuatChieu getItem(int pos) {
+        return data.get(pos);
+    }
     @Override
-    public void onBindViewHolder(@NonNull NgayChieuAdapter.ItemViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull ByRapNgayChieuAdapter.ItemViewHolder holder, int position) {
         SuatChieu date =data.get(position);
 
         holder.tvDate.setText(date.getNgayChieu());
@@ -66,16 +71,7 @@ public class NgayChieuAdapter extends RecyclerView.Adapter<NgayChieuAdapter.Item
         return 0;
     }
 
-    public SuatChieu getItem(int pos) {
-        return data.get(pos);
-    }
-
-    public interface ItemInterface {
-        void onItemClick(SuatChieu suat, List<Ghe> listGhe, Phim phim);
-    }
-
-    public class ItemViewHolder extends RecyclerView.ViewHolder{
-
+    public class ItemViewHolder extends RecyclerView.ViewHolder {
         private final TextView tvDate;
         private final TextView tvTime;
         private final TextView tvSub;
@@ -87,25 +83,19 @@ public class NgayChieuAdapter extends RecyclerView.Adapter<NgayChieuAdapter.Item
             tvTime = itemView.findViewById(R.id.tvTime);
             tvSub = itemView.findViewById(R.id.tvSub);
             tvPhong = itemView.findViewById(R.id.tvPhong);
+
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     int pos = getAdapterPosition();
-                    if(pos != RecyclerView.NO_POSITION){
-
+                    if (pos != RecyclerView.NO_POSITION) {
                         List<Ghe> gheOfPhong = new ArrayList<>();
-                        Phim phim = null;
-                        for(Ghe ghe:listGhe){
-                            if(ghe.getId_phong() == data.get(pos).getId_phong()){
+                        for (Ghe ghe : listGhe) {
+                            if (ghe.getId_phong() == data.get(getAdapterPosition()).getId_phong()) {
                                 gheOfPhong.add(ghe);
                             }
                         }
-                        for(Phim p:listPhim){
-                            if(p.getIdPhim() == data.get(pos).getId_phim()){
-                                phim = p;
-                            }
-                        }
-                        itemInterface.onItemClick(data.get(pos), gheOfPhong, phim);
+                        itemInterface.onItemClick(data.get(getAdapterPosition()), gheOfPhong, phim);
                     }
                 }
             });

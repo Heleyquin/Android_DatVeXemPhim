@@ -1,13 +1,9 @@
-package com.example.datvexemphim.Adapter;
+package com.example.datvexemphim.Adapter.PhimFragment;
 
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.content.Intent;
-import android.util.Log;
-import android.view.InputDevice;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -16,8 +12,6 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.datvexemphim.Activity.ChonGhe;
-import com.example.datvexemphim.Activity.Movie_Detail;
 import com.example.datvexemphim.Model.Ghe;
 import com.example.datvexemphim.Model.Phim;
 import com.example.datvexemphim.Model.Phong;

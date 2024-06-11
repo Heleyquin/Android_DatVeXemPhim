@@ -1,26 +1,19 @@
-package com.example.datvexemphim.Activity;
+package com.example.datvexemphim.Activity.PhimFragment;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.InputQueue;
-import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
-import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-import com.example.datvexemphim.Adapter.NgayChieuAdapter;
-import com.example.datvexemphim.Adapter.RapAdapter;
+import com.example.datvexemphim.Activity.ForAll.ChonGhe;
+import com.example.datvexemphim.Adapter.PhimFragment.NgayChieuAdapter;
+import com.example.datvexemphim.Adapter.PhimFragment.RapAdapter;
 import com.example.datvexemphim.Model.Ghe;
 import com.example.datvexemphim.Model.Phim;
 import com.example.datvexemphim.Model.Phong;
@@ -63,7 +56,11 @@ public class Movie_Detail extends AppCompatActivity implements NgayChieuAdapter.
         setDataIntent();
         setAdapterrvRap();
         setDataAdapter();
+        setDataView();
 
+    }
+
+    private void setDataView() {
         Glide.with(ivImage).load(phim.getAnh()).into(ivImage);
         tvTitle.setText(phim.getTen());
         tvDecript.setText(phim.getMoTa());
@@ -76,17 +73,8 @@ public class Movie_Detail extends AppCompatActivity implements NgayChieuAdapter.
         else{
             tvAge.setText("Mọi lứa tuổi");
         }
-
     }
 
-//    private void setSuatChieuTheoPhim(){
-//        List<SuatChieu> dsChieuTheoPhim = new ArrayList<>();
-//        for(SuatChieu suat : dsSuatChieu){
-//            if(suat.getId_phim() == phim.getIdPhim()){
-//                dsChieuTheoPhim.add(suat);
-//            }
-//        }
-//    }
     private void setDataAdapter() {
         List<SuatChieu> dsChieuTheoPhim = new ArrayList<>();
         for(SuatChieu suat : dsSuatChieu){

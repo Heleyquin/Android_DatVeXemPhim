@@ -1,4 +1,4 @@
-package com.example.datvexemphim.Activity;
+package com.example.datvexemphim.Activity.RapFragment;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -7,13 +7,10 @@ import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.datvexemphim.Adapter.MoviesAdapter;
+import com.example.datvexemphim.Adapter.RapFragment.ByRapMoviesAdapter;
 import com.example.datvexemphim.Model.Ghe;
 import com.example.datvexemphim.Model.Phim;
 import com.example.datvexemphim.Model.Phong;
@@ -21,9 +18,10 @@ import com.example.datvexemphim.Model.Rap;
 import com.example.datvexemphim.Model.SuatChieu;
 import com.example.datvexemphim.R;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class PhimByRap extends AppCompatActivity implements MoviesAdapter.ItemInterface{
+public class PhimByRap extends AppCompatActivity implements ByRapMoviesAdapter.ItemInterface{
 
     private List<Phim> dsPhim;
     private List<SuatChieu> dsSuatChieu;
@@ -32,20 +30,20 @@ public class PhimByRap extends AppCompatActivity implements MoviesAdapter.ItemIn
     private List<Phong> dsPhong;
     private RecyclerView rvPhim;
     private TextView tvTenRap;
-    private MoviesAdapter adapter;
+    private ByRapMoviesAdapter adapter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_phim_by_rap);
 
-        adapter = new MoviesAdapter(this, getApplicationContext());
+        adapter = new ByRapMoviesAdapter(this, getApplicationContext());
 
         setDataIntent();
         setControl();
         setRV();
 
-        adapter.setData(dsPhim);
+        adapter.setData(dsPhim, dsSuatChieu, dsGhe, dsPhong, rap);
 
     }
     private void setDataIntent() {
@@ -69,6 +67,14 @@ public class PhimByRap extends AppCompatActivity implements MoviesAdapter.ItemIn
 
     @Override
     public void onItemClick(View view, int position) {
+        Intent intent = new Intent(view.getContext(), ByRap_Movie_Detail.class);
 
+        intent.putExtra("movie", adapter.getItem(position));
+        intent.putExtra("phims",(Serializable) dsPhim);
+        intent.putExtra("suats",(Serializable) dsSuatChieu);
+        intent.putExtra("ghes",(Serializable) dsGhe);
+        intent.putExtra("phongs",(Serializable) dsPhong);
+        intent.putExtra("rap", rap);
+        startActivity(intent);
     }
 }
