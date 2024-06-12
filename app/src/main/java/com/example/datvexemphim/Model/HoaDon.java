@@ -3,30 +3,30 @@ package com.example.datvexemphim.Model;
 import java.io.Serializable;
 
 public class HoaDon implements Serializable {
-    private int idhoadon;
-    private int id_kh;
-
+    private int idHoaDon;
+    private KhachHang khachHang;
+    
     public HoaDon() {
     }
 
-    public HoaDon(int idhoadon, int id_kh) {
-        this.idhoadon = idhoadon;
-        this.id_kh = id_kh;
+    public HoaDon(int idHoaDon, KhachHang khachHang) {
+        this.idHoaDon = idHoaDon;
+        this.khachHang = khachHang;
     }
 
     public int getIdhoadon() {
-        return idhoadon;
+        return idHoaDon;
     }
 
-    public void setIdhoadon(int idhoadon) {
-        this.idhoadon = idhoadon;
+    public void setIdhoadon(int idHoaDon) {
+        this.idHoaDon = idHoaDon;
     }
 
-    public int getId_kh() {
-        return id_kh;
+    public KhachHang getId_kh() {
+        return khachHang;
     }
 
-    public void setId_kh(int id_kh) {
-        this.id_kh = id_kh;
+    public void setId_kh(KhachHang khachHang) {
+        this.khachHang = khachHang;
     }
 }

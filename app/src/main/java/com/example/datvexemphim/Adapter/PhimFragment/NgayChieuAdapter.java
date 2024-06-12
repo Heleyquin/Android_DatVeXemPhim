@@ -49,8 +49,8 @@ public class NgayChieuAdapter extends RecyclerView.Adapter<NgayChieuAdapter.Item
     public void onBindViewHolder(@NonNull NgayChieuAdapter.ItemViewHolder holder, int position) {
         SuatChieu date =data.get(position);
 
-        holder.tvDate.setText(date.getNgayChieu());
-        holder.tvTime.setText(date.getGioBatDau());
+        holder.tvDate.setText(date.getNgayChieu().substring(0,10));
+        holder.tvTime.setText(date.getGioBatDau().substring(11,19));
         holder.tvSub.setText(date.getSub());
         holder.tvPhong.setText(String.valueOf (date.getId_phong()));
     }
@@ -93,12 +93,12 @@ public class NgayChieuAdapter extends RecyclerView.Adapter<NgayChieuAdapter.Item
                         List<Ghe> gheOfPhong = new ArrayList<>();
                         Phim phim = null;
                         for(Ghe ghe:listGhe){
-                            if(ghe.getId_phong() == data.get(pos).getId_phong()){
+                            if(ghe.getId_phong().getIdPhong() == data.get(pos).getId_phong().getIdPhong()){
                                 gheOfPhong.add(ghe);
                             }
                         }
                         for(Phim p:listPhim){
-                            if(p.getIdPhim() == data.get(pos).getId_phim()){
+                            if(p.getIdPhim() == data.get(pos).getId_phim().getIdPhim()){
                                 phim = p;
                             }
                         }

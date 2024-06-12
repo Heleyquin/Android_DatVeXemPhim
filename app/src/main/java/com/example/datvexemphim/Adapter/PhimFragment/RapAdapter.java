@@ -60,7 +60,7 @@ public class RapAdapter extends RecyclerView.Adapter<RapAdapter.ItemViewHolder> 
         List<SuatChieu> listSuatChieuOfRap;
         List<Phong> phongOfRap = new ArrayList<>();
         for(Phong p : dsPhong){
-            if(p.getId_rap() == id_rap){
+            if(p.getId_rap().getIdRap() == id_rap){
                 phongOfRap.add(p);
             }
         }
@@ -68,7 +68,7 @@ public class RapAdapter extends RecyclerView.Adapter<RapAdapter.ItemViewHolder> 
                 .map(Phong::getIdPhong)
                 .collect(Collectors.toSet());
         listSuatChieuOfRap = listSuatChieu.stream()
-                .filter(suat -> phongIds.contains(suat.getId_phong()))
+                .filter(suat -> phongIds.contains(suat.getId_phong().getIdPhong()))
                 .collect(Collectors.toList());
         return listSuatChieuOfRap;
     }
@@ -92,7 +92,6 @@ public class RapAdapter extends RecyclerView.Adapter<RapAdapter.ItemViewHolder> 
 
         holder.tvTenRap.setText(rap.getTenRap());
         List<SuatChieu> suatChieuOfRap = getSuatChieuByRap(rap.getIdRap());
-
         setRVAdapter(holder.rvNgayChieu, ngayChieuAdapter);
         ngayChieuAdapter.setData(suatChieuOfRap);
     }

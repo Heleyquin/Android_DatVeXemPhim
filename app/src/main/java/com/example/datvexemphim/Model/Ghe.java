@@ -8,18 +8,18 @@ public class Ghe implements Serializable {
     private String loaiGhe;
     private String hangGhe;
     private String soGhe;
-    private int id_phong;
+    private Phong phong;
 //    private int trang_thai; //0: empty, 1: Đang chọn, 2: Đã bán
 
     public Ghe() {
     }
 
-    public Ghe(int idGhe, String loaiGhe, String hangGhe, String soGhe, int id_phong) {
+    public Ghe(int idGhe, String loaiGhe, String hangGhe, String soGhe, Phong phong) {
         this.idGhe = idGhe;
         this.loaiGhe = loaiGhe;
         this.hangGhe = hangGhe;
         this.soGhe = soGhe;
-        this.id_phong = id_phong;
+        this.phong = phong;
     }
 
     public int getIdGhe() {
@@ -54,12 +54,12 @@ public class Ghe implements Serializable {
         this.soGhe = soGhe;
     }
 
-    public int getId_phong() {
-        return id_phong;
+    public Phong getId_phong() {
+        return phong;
     }
 
-    public void setId_phong(int id_phong) {
-        this.id_phong = id_phong;
+    public void setId_phong(Phong phong) {
+        this.phong = phong;
     }
 
     @Override

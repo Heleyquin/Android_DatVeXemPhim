@@ -19,7 +19,7 @@
             android:layout_height="wrap_content"
             android:text="Ngay chieu"
             android:textColor="@color/black"
-            android:textSize="19dp"
+            android:textSize="16dp"
             android:textStyle="bold" />
 
         <TextView
@@ -36,7 +36,7 @@
             android:layout_height="wrap_content"
             android:text="Ngay chieu"
             android:textColor="@color/black"
-            android:textSize="17dp"
+            android:textSize="16dp"
             android:textStyle="bold" />
 
         <TextView

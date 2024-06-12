@@ -5,15 +5,15 @@ import java.io.Serializable;
 public class Phong implements Serializable {
     private int idPhong;
     private String tenPhong;
-    private int id_rap;
+    private Rap rap;
 
     public Phong() {
     }
 
-    public Phong(int idPhong, String tenPhong, int id_rap) {
+    public Phong(int idPhong, String tenPhong, Rap rap) {
         this.idPhong = idPhong;
         this.tenPhong = tenPhong;
-        this.id_rap = id_rap;
+        this.rap = rap;
     }
 
     public int getIdPhong() {
@@ -32,11 +32,11 @@ public class Phong implements Serializable {
         this.tenPhong = tenPhong;
     }
 
-    public int getId_rap() {
-        return id_rap;
+    public Rap getId_rap() {
+        return rap;
     }
 
-    public void setId_rap(int id_rap) {
-        this.id_rap = id_rap;
+    public void setId_rap(Rap rap) {
+        this.rap = rap;
     }
 }

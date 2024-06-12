@@ -72,7 +72,7 @@ public class ByRap_Movie_Detail extends AppCompatActivity implements ByRapNgayCh
     private void setDataAdapter() {
         List<SuatChieu> suatOfPhim = new ArrayList<>();
         for(SuatChieu suat:dsSuatChieu){
-            if(suat.getId_phim() == phim.getIdPhim()){
+            if(suat.getId_phim().getIdPhim() == phim.getIdPhim()){
                 suatOfPhim.add(suat);
             }
         }

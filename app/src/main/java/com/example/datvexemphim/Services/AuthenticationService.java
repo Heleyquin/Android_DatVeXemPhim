@@ -9,9 +9,9 @@ import androidx.annotation.NonNull;
 
 import com.example.datvexemphim.API.AccountAPIService;
 import com.example.datvexemphim.API.KhachHangAPIService;
-import com.example.datvexemphim.Activity.Home;
-import com.example.datvexemphim.Activity.MainActivity;
-import com.example.datvexemphim.Activity.SignUp;
+import com.example.datvexemphim.Activity.ForAll.Home;
+import com.example.datvexemphim.Activity.ForAll.MainActivity;
+import com.example.datvexemphim.Activity.ForAll.SignUp;
 import com.example.datvexemphim.Model.Account;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;

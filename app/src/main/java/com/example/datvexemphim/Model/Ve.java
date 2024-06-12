@@ -4,18 +4,18 @@ import java.io.Serializable;
 
 public class Ve implements Serializable {
     private int idVe;
-    private int id_ghe;
-    private int idSuatChieu;
-    private int idHoaDon;
+    private Ghe ghe;
+    private SuatChieu suatChieu;
+    private HoaDon hoaDon;
 
     public Ve() {
     }
 
-    public Ve(int idVe, int id_ghe, int idSuatChieu, int idHoaDon) {
+    public Ve(int idVe, Ghe id_ghe, SuatChieu idSuatChieu, HoaDon idHoaDon) {
         this.idVe = idVe;
-        this.id_ghe = id_ghe;
-        this.idSuatChieu = idSuatChieu;
-        this.idHoaDon = idHoaDon;
+        this.ghe = id_ghe;
+        this.suatChieu = idSuatChieu;
+        this.hoaDon = idHoaDon;
     }
 
     public int getIdVe() {
@@ -26,27 +26,27 @@ public class Ve implements Serializable {
         this.idVe = idVe;
     }
 
-    public int getId_ghe() {
-        return id_ghe;
+    public Ghe getId_ghe() {
+        return ghe;
     }
 
-    public void setId_ghe(int id_ghe) {
-        this.id_ghe = id_ghe;
+    public void setId_ghe(Ghe id_ghe) {
+        this.ghe = id_ghe;
     }
 
-    public int getIdSuatChieu() {
-        return idSuatChieu;
+    public SuatChieu getIdSuatChieu() {
+        return suatChieu;
     }
 
-    public void setIdSuatChieu(int idSuatChieu) {
-        this.idSuatChieu = idSuatChieu;
+    public void setIdSuatChieu(SuatChieu idSuatChieu) {
+        this.suatChieu = idSuatChieu;
     }
 
-    public int getIdHoaDon() {
-        return idHoaDon;
+    public HoaDon getIdHoaDon() {
+        return hoaDon;
     }
 
-    public void setIdHoaDon(int idHoaDon) {
-        this.idHoaDon = idHoaDon;
+    public void setIdHoaDon(HoaDon idHoaDon) {
+        this.hoaDon = idHoaDon;
     }
 }

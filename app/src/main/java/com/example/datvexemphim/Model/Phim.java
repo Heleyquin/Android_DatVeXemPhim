@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.util.Date;
 
 public class Phim implements Serializable {
-    private int idPhim;
+    private int id;
     private String anh;
     private String ten;
     private String quocGia;
@@ -13,13 +13,29 @@ public class Phim implements Serializable {
     private int thoiLuong;
     private String moTa;
     private boolean doTuoi;
-    private int id_admin;
+    private Admin admin;
+
+    @Override
+    public String toString() {
+        return "Phim{" +
+                "idPhim=" + id +
+                ", anh='" + anh + '\'' +
+                ", ten='" + ten + '\'' +
+                ", quocGia='" + quocGia + '\'' +
+                ", namPhatHanh='" + namPhatHanh + '\'' +
+                ", trangthai='" + trangthai + '\'' +
+                ", thoiLuong=" + thoiLuong +
+                ", moTa='" + moTa + '\'' +
+                ", doTuoi=" + doTuoi +
+                ", admin=" + admin +
+                '}';
+    }
 
     public Phim() {
     }
 
-    public Phim(int idPhim, String anh, String ten, String quocGia, String namPhatHanh, String trangthai, int thoiLuong, String moTa, boolean doTuoi, int id_admin) {
-        this.idPhim = idPhim;
+    public Phim(int id, String anh, String ten, String quocGia, String namPhatHanh, String trangthai, int thoiLuong, String moTa, boolean doTuoi, Admin admin) {
+        this.id = id;
         this.anh = anh;
         this.ten = ten;
         this.quocGia = quocGia;
@@ -28,15 +44,15 @@ public class Phim implements Serializable {
         this.thoiLuong = thoiLuong;
         this.moTa = moTa;
         this.doTuoi = doTuoi;
-        this.id_admin = id_admin;
+        this.admin = admin;
     }
 
     public int getIdPhim() {
-        return idPhim;
+        return id;
     }
 
-    public void setIdPhim(int idPhim) {
-        this.idPhim = idPhim;
+    public void setIdPhim(int id) {
+        this.id = id;
     }
 
     public String getAnh() {
@@ -103,11 +119,11 @@ public class Phim implements Serializable {
         this.doTuoi = doTuoi;
     }
 
-    public int getId_admin() {
-        return id_admin;
+    public Admin getId_admin() {
+        return admin;
     }
 
-    public void setId_admin(int id_admin) {
-        this.id_admin = id_admin;
+    public void setId_admin(Admin admin) {
+        this.admin = admin;
     }
 }

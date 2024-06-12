@@ -14,6 +14,8 @@ import com.example.datvexemphim.Model.Ghe;
 import com.example.datvexemphim.Model.HoaDon;
 import com.example.datvexemphim.Model.Ve;
 import com.example.datvexemphim.R;
+import com.example.datvexemphim.Services.HoaDonService;
+import com.example.datvexemphim.Services.VeService;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -68,6 +70,7 @@ public class GheNgoiAdapter extends RecyclerView.Adapter<GheNgoiAdapter.ItemView
         Ghe ghe = listGhe.get(position);
         Set<Integer> temp = listVe.stream()
                 .map(Ve::getId_ghe)
+                .map(Ghe::getIdGhe)
                 .collect(Collectors.toSet());
         if (temp.contains(ghe.getIdGhe())) {
             holder.ivGhe.setBackgroundResource(R.drawable.baseline_event_seat_24_sold);
@@ -100,18 +103,20 @@ public class GheNgoiAdapter extends RecyclerView.Adapter<GheNgoiAdapter.ItemView
 
     public void taoVe() {
         listVe = new ArrayList<>();
-        listVe.add(new Ve(1, 1, 1, 1));
-        listVe.add(new Ve(2, 2, 1, 1));
-        listVe.add(new Ve(3, 13, 1, 2));
-        listVe.add(new Ve(4, 4, 1, 3));
-        listVe.add(new Ve(5, 10, 1, 4));
+//        listVe.add(new Ve(1, 1, 1, 1));
+//        listVe.add(new Ve(2, 2, 1, 1));
+//        listVe.add(new Ve(3, 13, 1, 2));
+//        listVe.add(new Ve(4, 4, 1, 3));
+//        listVe.add(new Ve(5, 10, 1, 4));
+        VeService.getAllVe(listVe, this);
     }
 
     public void taoHoaDon() {
         listHoaDon = new ArrayList<>();
-        listHoaDon.add(new HoaDon(1, 1));
-        listHoaDon.add(new HoaDon(2, 2));
-        listHoaDon.add(new HoaDon(3, 1));
+//        listHoaDon.add(new HoaDon(1, 1));
+//        listHoaDon.add(new HoaDon(2, 2));
+//        listHoaDon.add(new HoaDon(3, 1));
+        HoaDonService.getAllHoaDon(listHoaDon, this);
     }
 
     public class ItemViewHolder extends RecyclerView.ViewHolder {

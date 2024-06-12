@@ -10,13 +10,13 @@ public class SuatChieu implements Serializable {
     private String sub;
     private double gia;
     private int id_admin;
-    private int id_phim;
-    private int id_phong;
+    private Phim phim;
+    private Phong phong;
 
     public SuatChieu() {
     }
 
-    public SuatChieu(int idSuatChieu, String gioBatDau, String ngonNgu, String ngayChieu, String sub, double gia, int id_admin, int id_phim, int idPhong) {
+    public SuatChieu(int idSuatChieu, String gioBatDau, String ngonNgu, String ngayChieu, String sub, double gia, int id_admin, Phim phim, Phong idPhong) {
         this.idSuatChieu = idSuatChieu;
         this.gioBatDau = gioBatDau;
         this.ngonNgu = ngonNgu;
@@ -24,15 +24,15 @@ public class SuatChieu implements Serializable {
         this.sub = sub;
         this.gia = gia;
         this.id_admin = id_admin;
-        this.id_phim = id_phim;
-        id_phong = idPhong;
+        this.phim = phim;
+        phong = idPhong;
     }
-    public int getId_phong() {
-        return id_phong;
+    public Phong getId_phong() {
+        return phong;
     }
 
-    public void setId_phong(int id_phong) {
-        this.id_phong = id_phong;
+    public void setId_phong(Phong phong) {
+        this.phong = phong;
     }
     public int getIdSuatChieu() {
         return idSuatChieu;
@@ -90,11 +90,11 @@ public class SuatChieu implements Serializable {
         this.id_admin = id_admin;
     }
 
-    public int getId_phim() {
-        return id_phim;
+    public Phim getId_phim() {
+        return phim;
     }
 
-    public void setId_phim(int id_phim) {
-        this.id_phim = id_phim;
+    public void setId_phim(Phim phim) {
+        this.phim = phim;
     }
 }

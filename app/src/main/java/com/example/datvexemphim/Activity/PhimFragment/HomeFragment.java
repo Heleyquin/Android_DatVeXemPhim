@@ -16,6 +16,8 @@ import com.example.datvexemphim.Adapter.PhimFragment.MoviesAdapter;
 import com.example.datvexemphim.Model.Phim;
 import com.example.datvexemphim.Model.SuatChieu;
 import com.example.datvexemphim.R;
+import com.example.datvexemphim.Services.PhimService;
+import com.example.datvexemphim.Services.SuatChieuService;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -100,22 +102,19 @@ public class HomeFragment extends Fragment implements MoviesAdapter.ItemInterfac
     }
     public void tempData(){
         data = new ArrayList<>();
-        data.add(new Phim(1, "https://files.betacorp.vn/media%2fimages%2f2024%2f05%2f28%2f310524%2Dgarfield%2D150640%2D280524%2D95.jpg", "Phim1", "QuocGia", "29/06/2015","Trang thai", 102, "Mo ta", true, 1));
-        data.add(new Phim(2, "https://files.betacorp.vn/media%2fimages%2f2024%2f04%2f24%2f240524%2Ddraft%2Ddoraemon%2D170958%2D240424%2D90.png", "Phim2", "QuocGia", "03/05/2024", "Trang thai", 95, "Mo ta", true, 1));
-        data.add(new Phim(3, "https://files.betacorp.vn/media%2fimages%2f2024%2f05%2f27%2f400x633%2D7%2D151139%2D270524%2D46.jpg", "Phim3", "QuocGia", "23/04/2024", "Trang thai", 120, "Mo ta", false, 1));
-        data.add(new Phim(4, "https://files.betacorp.vn/media%2fimages%2f2024%2f05%2f24%2f400x633%2D6%2D103906%2D240524%2D41.jpg", "Phim4", "QuocGia", "22/04/2024", "Trang thai", 84, "Mo ta", true, 1));
-        data.add(new Phim(5, "https://files.betacorp.vn/media%2fimages%2f2024%2f05%2f28%2f070624%2Dsneak%2Dmong%2Dvuot%2D150957%2D280524%2D53.jpg", "Phim5", "QuocGia", "11/04/2024", "Trang thai", 99, "Mo ta", true, 1));
+        PhimService.getAllPhim(data, adapter);
         dsSuat = new ArrayList<>();
-        dsSuat.add(new SuatChieu(1, "10:30", "English", "05/06/2024", "VietSub", 100000, 1, 1, 1));
-        dsSuat.add(new SuatChieu(2, "12:30", "English", "05/06/2024", "VietSub", 100000, 1, 1, 1));
-        dsSuat.add(new SuatChieu(3, "13:30", "English", "06/06/2024", "VietSub", 100000, 1, 1, 1));
-        dsSuat.add(new SuatChieu(4, "10:30", "English", "05/06/2024", "VietSub", 100000, 1, 1, 2));
-        dsSuat.add(new SuatChieu(5, "10:30", "English", "05/06/2024", "VietSub", 100000, 1, 3, 2));
-        dsSuat.add(new SuatChieu(6, "16:30", "English", "06/06/2024", "VietSub", 100000, 1, 1, 3));
-        dsSuat.add(new SuatChieu(7, "10:30", "English", "07/06/2024", "VietSub", 100000, 1, 2, 2));
-        dsSuat.add(new SuatChieu(8, "10:30", "English", "08/06/2024", "VietSub", 100000, 1, 1, 2));
-        dsSuat.add(new SuatChieu(9, "10:30", "English", "09/06/2024", "VietSub", 100000, 1, 1, 2));
-        dsSuat.add(new SuatChieu(10, "10:30", "English", "10/06/2024", "VietSub", 100000, 1, 1, 2));
-        dsSuat.add(new SuatChieu(11, "10:30", "English", "10/06/2024", "VietSub", 100000, 1, 1, 4));
+//        dsSuat.add(new SuatChieu(1, "10:30", "English", "05/06/2024", "VietSub", 100000, 1, 1, 1));
+//        dsSuat.add(new SuatChieu(2, "12:30", "English", "05/06/2024", "VietSub", 100000, 1, 1, 1));
+//        dsSuat.add(new SuatChieu(3, "13:30", "English", "06/06/2024", "VietSub", 100000, 1, 1, 1));
+//        dsSuat.add(new SuatChieu(4, "10:30", "English", "05/06/2024", "VietSub", 100000, 1, 1, 2));
+//        dsSuat.add(new SuatChieu(5, "10:30", "English", "05/06/2024", "VietSub", 100000, 1, 3, 2));
+//        dsSuat.add(new SuatChieu(6, "16:30", "English", "06/06/2024", "VietSub", 100000, 1, 1, 3));
+//        dsSuat.add(new SuatChieu(7, "10:30", "English", "07/06/2024", "VietSub", 100000, 1, 2, 2));
+//        dsSuat.add(new SuatChieu(8, "10:30", "English", "08/06/2024", "VietSub", 100000, 1, 1, 2));
+//        dsSuat.add(new SuatChieu(9, "10:30", "English", "09/06/2024", "VietSub", 100000, 1, 1, 2));
+//        dsSuat.add(new SuatChieu(10, "10:30", "English", "10/06/2024", "VietSub", 100000, 1, 1, 2));
+//        dsSuat.add(new SuatChieu(11, "10:30", "English", "10/06/2024", "VietSub", 100000, 1, 1, 4));
+        SuatChieuService.getAllSuatChieu(dsSuat, adapter);
     }
 }

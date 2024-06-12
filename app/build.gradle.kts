@@ -49,7 +49,7 @@ dependencies {
     implementation("com.github.bumptech.glide:glide:4.16.0")
 
     //noinspection GradlePath
-    implementation(files("C:/Users/daica/Downloads/zalopaySandbox/zpdk-release-v3.1.aar"))
+    implementation(files("C:/Users/THAIHOANG/Downloads/zpdk-release-v3.1.aar"))
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")

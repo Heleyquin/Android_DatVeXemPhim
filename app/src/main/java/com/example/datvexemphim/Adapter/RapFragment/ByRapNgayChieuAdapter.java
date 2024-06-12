@@ -91,7 +91,7 @@ public class ByRapNgayChieuAdapter extends RecyclerView.Adapter<ByRapNgayChieuAd
                     if (pos != RecyclerView.NO_POSITION) {
                         List<Ghe> gheOfPhong = new ArrayList<>();
                         for (Ghe ghe : listGhe) {
-                            if (ghe.getId_phong() == data.get(getAdapterPosition()).getId_phong()) {
+                            if (ghe.getId_phong().getIdPhong() == data.get(getAdapterPosition()).getId_phong().getIdPhong()) {
                                 gheOfPhong.add(ghe);
                             }
                         }

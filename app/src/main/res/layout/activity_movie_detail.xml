@@ -10,8 +10,8 @@
     tools:context=".Activity.PhimFragment.Movie_Detail">
 
     <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="590dp"
+        android:layout_width="200dp"
+        android:layout_height="295dp"
         android:layout_gravity="center"
         android:layout_marginStart="5dp"
         android:layout_marginEnd="5dp"
@@ -48,10 +48,9 @@
         android:layout_height="wrap_content"
         android:ellipsize="marquee"
         android:marqueeRepeatLimit="marquee_forever"
-        android:maxLines="1"
+        android:maxLines="4"
         android:paddingVertical="3dp"
         android:scrollHorizontally="true"
-        android:singleLine="true"
         android:text="MÔ TẢ"
         android:textColor="@color/black"
         android:textSize="18sp"

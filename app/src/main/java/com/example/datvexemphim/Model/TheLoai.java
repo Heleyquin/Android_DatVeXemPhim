@@ -6,12 +6,12 @@ import java.util.List;
 public class TheLoai implements Serializable {
     private int idTheLoai;
     private String theLoai;
-    private List<Integer> phim;
+    private List<Phim> phim;
 
     public TheLoai() {
     }
 
-    public TheLoai(int idTheLoai, String theLoai, List<Integer> phim) {
+    public TheLoai(int idTheLoai, String theLoai, List<Phim> phim) {
         this.idTheLoai = idTheLoai;
         this.theLoai = theLoai;
         this.phim = phim;
@@ -33,11 +33,11 @@ public class TheLoai implements Serializable {
         this.theLoai = theLoai;
     }
 
-    public List<Integer> getPhim() {
+    public List<Phim> getPhim() {
         return phim;
     }
 
-    public void addPhim(int id_phim) {
+    public void addPhim(Phim id_phim) {
         this.phim.add(id_phim);
     }
 }

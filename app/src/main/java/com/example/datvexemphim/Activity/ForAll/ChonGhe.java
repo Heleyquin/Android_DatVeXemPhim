@@ -21,6 +21,7 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.example.datvexemphim.API.interceptor.TokenStorage;
 import com.example.datvexemphim.Adapter.PhimFragment.GheNgoiAdapter;
 import com.example.datvexemphim.Model.CreateOrder;
 import com.example.datvexemphim.Model.Ghe;
@@ -29,12 +30,18 @@ import com.example.datvexemphim.Model.Phim;
 import com.example.datvexemphim.Model.SuatChieu;
 import com.example.datvexemphim.Model.Ve;
 import com.example.datvexemphim.R;
+import com.example.datvexemphim.Services.AuthenticationService;
+import com.example.datvexemphim.Services.HoaDonService;
+import com.example.datvexemphim.Services.VeService;
 import com.example.datvexemphim.Setting.SpaceItemDecoration;
 
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 import vn.zalopay.sdk.Environment;
 import vn.zalopay.sdk.ZaloPayError;
@@ -84,18 +91,12 @@ public class ChonGhe extends AppCompatActivity implements GheNgoiAdapter.ItemInt
 
     public void taoVe() {
         listVe = new ArrayList<>();
-        listVe.add(new Ve(1, 1, 1, 1));
-        listVe.add(new Ve(2, 2, 1, 1));
-        listVe.add(new Ve(3, 13, 1, 2));
-        listVe.add(new Ve(4, 4, 1, 3));
-        listVe.add(new Ve(5, 10, 1, 4));
+        VeService.getAllVe(listVe, gheAdapter);
     }
 
     public void taoHoaDon() {
         listHoaDon = new ArrayList<>();
-        listHoaDon.add(new HoaDon(1, 1));
-        listHoaDon.add(new HoaDon(2, 2));
-        listHoaDon.add(new HoaDon(3, 1));
+        HoaDonService.getAllHoaDon(listHoaDon, gheAdapter);
     }
     public void setControl(){
         rvGhe = findViewById(R.id.rvGhe);
@@ -122,7 +123,7 @@ public class ChonGhe extends AppCompatActivity implements GheNgoiAdapter.ItemInt
         tvSub.setText(suat.getSub());
         tvTime.setText(String.valueOf(phim.getThoiLuong()));
         tvTotal.setText("0");
-        tvDate.setText(suat.getNgayChieu());
+        tvDate.setText(suat.getNgayChieu().substring(0,10));
     }
     public void setAdapterRV(){
         rvGhe.addItemDecoration(new SpaceItemDecoration(15));
@@ -176,12 +177,22 @@ public class ChonGhe extends AppCompatActivity implements GheNgoiAdapter.ItemInt
                                     @Override
                                     public void onPaymentSucceeded(final String transactionId, final String transToken, final String appTransID) {
                                         Toast.makeText(ChonGhe.this, "Thanh toán thành công!", Toast.LENGTH_SHORT).show();
-                                        for(Ghe ghe:gheChon){
-                                            HoaDon hd = new HoaDon(listHoaDon.size()+1, 1);
-                                            listHoaDon.add((hd));
-                                            Ve ve = new Ve(listVe.size()+1, ghe.getIdGhe(), suat.getIdSuatChieu(), hd.getIdhoadon());
-                                            listVe.add(ve);
-                                        }
+//                                        for(Ghe ghe:gheChon){
+//                                            HoaDon hd = new HoaDon(listHoaDon.size()+1, 1);
+//                                            listHoaDon.add((hd));
+//                                            Ve ve = new Ve(listVe.size()+1, ghe.getIdGhe(), suat.getIdSuatChieu(), hd.getIdhoadon());
+//                                            listVe.add(ve);
+//                                        }
+
+                                        Map<String, Object> data = new HashMap<>();
+                                        data.put("idGhe", getIdGheList(gheChon));
+                                        data.put("suatChieu", suat.getIdSuatChieu());
+                                        data.put("username", TokenStorage.getAccessToken());
+                                        VeService.addVe(data);
+
+                                        taoVe();
+                                        taoHoaDon();
+
                                         gheAdapter.setData(listGhe, listVe, listHoaDon);
                                         btnBuy.setEnabled(false);
                                         gheChon.clear();
@@ -267,7 +278,7 @@ public class ChonGhe extends AppCompatActivity implements GheNgoiAdapter.ItemInt
                 btnBuy.setEnabled(true);
             }
         }else{
-
+            System.out.println("hwllo");
         }
     }
     @Override
@@ -275,7 +286,9 @@ public class ChonGhe extends AppCompatActivity implements GheNgoiAdapter.ItemInt
         super.onNewIntent(intent);
         ZaloPaySDK.getInstance().onResult(intent);
     }
-    private void requestZalo(){
-
+    public List<Integer> getIdGheList(List<Ghe> gheList) {
+        return gheList.stream()
+                .map(Ghe::getIdGhe)
+                .collect(Collectors.toList());
     }
 }
