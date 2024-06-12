@@ -1,10 +1,8 @@
 package com.example.datvexemphim.Activity.ForAll;
 
-import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.StrictMode;
 import android.util.Log;
@@ -15,7 +13,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
-import androidx.annotation.RequiresApi;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -29,6 +27,7 @@ import com.example.datvexemphim.Model.Phim;
 import com.example.datvexemphim.Model.SuatChieu;
 import com.example.datvexemphim.Model.Ve;
 import com.example.datvexemphim.R;
+import com.example.datvexemphim.Setting.AppInfo;
 import com.example.datvexemphim.Setting.SpaceItemDecoration;
 
 import org.json.JSONObject;
@@ -40,6 +39,7 @@ import vn.zalopay.sdk.Environment;
 import vn.zalopay.sdk.ZaloPayError;
 import vn.zalopay.sdk.ZaloPaySDK;
 import vn.zalopay.sdk.listeners.PayOrderListener;
+
 
 public class ChonGhe extends AppCompatActivity implements GheNgoiAdapter.ItemInterface{
 
@@ -63,13 +63,14 @@ public class ChonGhe extends AppCompatActivity implements GheNgoiAdapter.ItemInt
         gheAdapter = new GheNgoiAdapter(this);
         gheChon = new ArrayList<>();
 
+        //Zalo
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+        StrictMode.setThreadPolicy(policy);
+        ZaloPaySDK.init(AppInfo.APP_ID, Environment.SANDBOX);
+
         taoVe();
         taoHoaDon();
 
-        //ZaloPay
-        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
-        StrictMode.setThreadPolicy(policy);
-        ZaloPaySDK.init(2554, Environment.SANDBOX);
 
         getDataIntent();
         setControl();
@@ -77,6 +78,7 @@ public class ChonGhe extends AppCompatActivity implements GheNgoiAdapter.ItemInt
         setAdapterRV();
         setEvent();
         gheAdapter.setData(listGhe, listVe, listHoaDon, suat);
+
 
 //        Toast.makeText(this, String.valueOf(gheAdapter.), Toast.LENGTH_LONG).show();
     }
@@ -155,50 +157,48 @@ public class ChonGhe extends AppCompatActivity implements GheNgoiAdapter.ItemInt
                             String total = String.valueOf((int) totalDouble);
                             JSONObject data = orderApi.createOrder(total);
                             String code = data.getString("return_code");
+//                            String d = data.getString("return_message");
+//                            Log.e("tranID", d);
                             if (code.equals("1")) {
                                 String token = data.getString("zp_trans_token");
-                                ZaloPaySDK.getInstance().payOrder(ChonGhe.this, token, "demozpdk://app", new PayOrderListener() {
-                                    @Override
-                                    public void onPaymentSucceeded(final String transactionId, final String transToken, final String appTransID) {
-                                        Toast.makeText(ChonGhe.this, "Thanh toán thành công!", Toast.LENGTH_SHORT).show();
-                                        for(Ghe ghe:gheChon){
-                                            HoaDon hd = new HoaDon(listHoaDon.size()+1, 1);
-                                            listHoaDon.add((hd));
-                                            Ve ve = new Ve(listVe.size()+1, ghe.getIdGhe(), suat.getIdSuatChieu(), hd.getIdhoadon());
-                                            listVe.add(ve);
-                                        }
-                                        gheAdapter.setData(listGhe, listVe, listHoaDon, suat);
-                                        btnBuy.setVisibility(View.GONE);
-                                        gheChon.clear();
-                                        gheAdapter.setSize();
-                                        dialog.dismiss();
-                                    }
-
-                                    @Override
-                                    public void onPaymentCanceled(String zpTransToken, String appTransID) {
-                                        Toast.makeText(ChonGhe.this, "Thanh toán bị hủy!", Toast.LENGTH_SHORT).show();
+                                ZaloPaySDK.getInstance().payOrder(ChonGhe.this, token, "demozpdk://app", new MyZaloPayListener());
+//
+//                                    @Override
+//                                    public void onPaymentSucceeded(final String transactionId, final String transToken, final String appTransID) {
+//                                        Log.e("tranID", "Dcm ma");
+//                                        for(Ghe ghe:gheChon){
+//                                            HoaDon hd = new HoaDon(listHoaDon.size()+1, 1);
+//                                            listHoaDon.add((hd));
+//                                            Ve ve = new Ve(listVe.size()+1, ghe.getIdGhe(), suat.getIdSuatChieu(), hd.getIdhoadon());
+//                                            listVe.add(ve);
+//                                        }
 //                                        gheAdapter.setData(listGhe, listVe, listHoaDon, suat);
-//                                        btnBuy.setEnabled(false);
+//                                        btnBuy.setVisibility(View.GONE);
 //                                        gheChon.clear();
 //                                        gheAdapter.setSize();
-                                        dialog.dismiss();
-                                    }
-
-                                    @Override
-                                    public void onPaymentError(ZaloPayError zaloPayError, String zpTransToken, String appTransID) {
-                                        Toast.makeText(ChonGhe.this, "Thanh toán thất bại!", Toast.LENGTH_SHORT).show();
-//                                        gheAdapter.setData(listGhe, listVe, listHoaDon, suat);
-//                                        btnBuy.setEnabled(false);
-//                                        gheChon.clear();
-//                                        gheAdapter.setSize();
-                                        dialog.dismiss();
-                                    }
-                                });
+//                                        tvTotal.setText("0");
+//                                        dialog.dismiss();
+//                                    }
+//
+//                                    @Override
+//                                    public void onPaymentCanceled(String zpTransToken, String appTransID) {
+//                                        Log.e("tranID", "Cancel");
+//                                        dialog.dismiss();
+//                                    }
+//
+//                                    @Override
+//                                    public void onPaymentError(ZaloPayError zaloPayError, String zpTransToken, String appTransID) {
+//                                        Log.e("tranID", "ER");
+//                                        dialog.dismiss();
+//                                    }
+//                                });
                             } else{
+                                Log.e("tranID", "Else");
                                 Toast.makeText(ChonGhe.this, "Không thể khởi tạo đơn hàng, xin lỗi quy khách vì sự cố!!" + code, Toast.LENGTH_SHORT).show();
                                 dialog.dismiss();
                             }
                         } catch (Exception ignored) {
+                            Log.e("tranID", "Exception");
                         }
                     }
                 });
@@ -207,6 +207,7 @@ public class ChonGhe extends AppCompatActivity implements GheNgoiAdapter.ItemInt
                 "Huỷ",
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
+                        Log.e("tranID", "Huy");
                         dialog.dismiss();
                     }
                 });
@@ -243,13 +244,46 @@ public class ChonGhe extends AppCompatActivity implements GheNgoiAdapter.ItemInt
             if(!gheChon.isEmpty()){
                 btnBuy.setVisibility(View.VISIBLE);
             }
-        }else{
-
         }
     }
     @Override
-    protected void onNewIntent(Intent intent) {
+    protected void onNewIntent(@NonNull Intent intent) {
         super.onNewIntent(intent);
         ZaloPaySDK.getInstance().onResult(intent);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+
+        for (Ghe ghe : gheChon) {
+            HoaDon hd = new HoaDon(listHoaDon.size() + 1, 1);
+            listHoaDon.add((hd));
+            Ve ve = new Ve(listVe.size() + 1, ghe.getIdGhe(), suat.getIdSuatChieu(), hd.getIdhoadon());
+            listVe.add(ve);
+        }
+        gheAdapter.setData(listGhe, listVe, listHoaDon, suat);
+        btnBuy.setVisibility(View.GONE);
+        gheChon.clear();
+        gheAdapter.setSize();
+        tvTotal.setText("0");
+    }
+    public static class MyZaloPayListener implements PayOrderListener{
+
+        @Override
+        public void onPaymentSucceeded(String s, String s1, String s2) {
+            Log.e("tranID", s);
+        }
+
+        @Override
+        public void onPaymentCanceled(String s, String s1) {
+            Log.e("tranID", s);
+        }
+
+        @Override
+        public void onPaymentError(ZaloPayError zaloPayError, String s, String s1) {
+            Log.e("tranID", s);
+        }
     }
 }

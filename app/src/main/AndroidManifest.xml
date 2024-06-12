@@ -33,14 +33,12 @@
             android:exported="false" />
         <activity
             android:name=".Activity.ForAll.ChonGhe"
-            android:exported="false"
+            android:exported="true"
             android:launchMode="singleTask">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
-
                 <category android:name="android.intent.catagory.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
-
                 <data
                     android:host="app"
                     android:scheme="demozpdk" />
@@ -66,4 +64,8 @@
         </activity>
     </application>
 
+    <queries>
+        <package android:name="vn.com.vng.zalopay" />
+        <package android:name="vn.com.vng.zalopay.sbmc" />
+    </queries>
 </manifest>
