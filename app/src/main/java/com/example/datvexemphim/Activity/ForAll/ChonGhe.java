@@ -20,15 +20,15 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.datvexemphim.Adapter.PhimFragment.GheNgoiAdapter;
-import com.example.datvexemphim.Model.CreateOrder;
 import com.example.datvexemphim.Model.Ghe;
 import com.example.datvexemphim.Model.HoaDon;
 import com.example.datvexemphim.Model.Phim;
 import com.example.datvexemphim.Model.SuatChieu;
 import com.example.datvexemphim.Model.Ve;
 import com.example.datvexemphim.R;
-import com.example.datvexemphim.Setting.AppInfo;
 import com.example.datvexemphim.Setting.SpaceItemDecoration;
+import com.example.datvexemphim.zaloPay.Api.CreateOrder;
+import com.example.datvexemphim.zaloPay.Constant.AppInfo;
 
 import org.json.JSONObject;
 
@@ -64,8 +64,11 @@ public class ChonGhe extends AppCompatActivity implements GheNgoiAdapter.ItemInt
         gheChon = new ArrayList<>();
 
         //Zalo
-        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+        StrictMode.ThreadPolicy policy = new
+                StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
+
+        // ZaloPay SDK Init
         ZaloPaySDK.init(AppInfo.APP_ID, Environment.SANDBOX);
 
         taoVe();
@@ -152,53 +155,76 @@ public class ChonGhe extends AppCompatActivity implements GheNgoiAdapter.ItemInt
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         CreateOrder orderApi = new CreateOrder();
+
                         try {
-                            double totalDouble = Double.parseDouble(tvTotal.getText().toString());
-                            String total = String.valueOf((int) totalDouble);
+                            double price = Double.parseDouble(tvTotal.getText().toString());
+                            String total = String.valueOf((int)price);
                             JSONObject data = orderApi.createOrder(total);
                             String code = data.getString("return_code");
-//                            String d = data.getString("return_message");
-//                            Log.e("tranID", d);
+                            Toast.makeText(getApplicationContext(), "return_code: " + code, Toast.LENGTH_LONG).show();
                             if (code.equals("1")) {
                                 String token = data.getString("zp_trans_token");
-                                ZaloPaySDK.getInstance().payOrder(ChonGhe.this, token, "demozpdk://app", new MyZaloPayListener());
-//
-//                                    @Override
-//                                    public void onPaymentSucceeded(final String transactionId, final String transToken, final String appTransID) {
-//                                        Log.e("tranID", "Dcm ma");
-//                                        for(Ghe ghe:gheChon){
-//                                            HoaDon hd = new HoaDon(listHoaDon.size()+1, 1);
-//                                            listHoaDon.add((hd));
-//                                            Ve ve = new Ve(listVe.size()+1, ghe.getIdGhe(), suat.getIdSuatChieu(), hd.getIdhoadon());
-//                                            listVe.add(ve);
-//                                        }
-//                                        gheAdapter.setData(listGhe, listVe, listHoaDon, suat);
-//                                        btnBuy.setVisibility(View.GONE);
-//                                        gheChon.clear();
-//                                        gheAdapter.setSize();
-//                                        tvTotal.setText("0");
-//                                        dialog.dismiss();
-//                                    }
-//
-//                                    @Override
-//                                    public void onPaymentCanceled(String zpTransToken, String appTransID) {
-//                                        Log.e("tranID", "Cancel");
-//                                        dialog.dismiss();
-//                                    }
-//
-//                                    @Override
-//                                    public void onPaymentError(ZaloPayError zaloPayError, String zpTransToken, String appTransID) {
-//                                        Log.e("tranID", "ER");
-//                                        dialog.dismiss();
-//                                    }
-//                                });
-                            } else{
-                                Log.e("tranID", "Else");
-                                Toast.makeText(ChonGhe.this, "Không thể khởi tạo đơn hàng, xin lỗi quy khách vì sự cố!!" + code, Toast.LENGTH_SHORT).show();
-                                dialog.dismiss();
+                                ZaloPaySDK.getInstance().payOrder(ChonGhe.this, token, "demozpdk://app", new PayOrderListener() {
+                                    @Override
+                                    public void onPaymentSucceeded(String s, String s1, String s2) {
+                                        runOnUiThread(new Runnable() {
+                                            @Override
+                                            public void run() {
+                                                for (Ghe ghe : gheChon) {
+                                                    HoaDon hd = new HoaDon(listHoaDon.size() + 1, 1);
+                                                    listHoaDon.add((hd));
+                                                    Ve ve = new Ve(listVe.size() + 1, ghe.getIdGhe(), suat.getIdSuatChieu(), hd.getIdhoadon());
+                                                    listVe.add(ve);
+                                                }
+                                                gheAdapter.setData(listGhe, listVe, listHoaDon, suat);
+                                                btnBuy.setVisibility(View.GONE);
+                                                gheChon.clear();
+                                                gheAdapter.setSize();
+                                                tvTotal.setText("0");
+                                                new AlertDialog.Builder(ChonGhe.this)
+                                                        .setTitle("Thanh toán thành công")
+                                                        .setMessage(String.format("TransactionId: %s - TransToken: %s", s, s1))
+                                                        .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                                            @Override
+                                                            public void onClick(DialogInterface dialog, int which) {
+                                                            }
+                                                        })
+                                                        .setNegativeButton("Cancel", null).show();
+                                            }
+
+                                        });
+                                    }
+
+                                    @Override
+                                    public void onPaymentCanceled(String s, String s1) {
+                                        new AlertDialog.Builder(ChonGhe.this)
+                                                .setTitle("Thanh toán bị huỷ")
+                                                .setMessage(String.format("zpTransToken: %s \n", s))
+                                                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                                    @Override
+                                                    public void onClick(DialogInterface dialog, int which) {
+                                                    }
+                                                })
+                                                .setNegativeButton("Cancel", null).show();
+                                    }
+
+                                    @Override
+                                    public void onPaymentError(ZaloPayError zaloPayError, String s, String s1) {
+                                        new AlertDialog.Builder(ChonGhe.this)
+                                                .setTitle("Thanh toán thất bại")
+                                                .setMessage(String.format("ZaloPayErrorCode: %s \nTransToken: %s", zaloPayError.toString(), s))
+                                                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                                    @Override
+                                                    public void onClick(DialogInterface dialog, int which) {
+                                                    }
+                                                })
+                                                .setNegativeButton("Cancel", null).show();
+                                    }
+                                });
                             }
-                        } catch (Exception ignored) {
-                            Log.e("tranID", "Exception");
+
+                        } catch (Exception e) {
+                            e.printStackTrace();
                         }
                     }
                 });
@@ -246,6 +272,7 @@ public class ChonGhe extends AppCompatActivity implements GheNgoiAdapter.ItemInt
             }
         }
     }
+
     @Override
     protected void onNewIntent(@NonNull Intent intent) {
         super.onNewIntent(intent);
@@ -255,35 +282,5 @@ public class ChonGhe extends AppCompatActivity implements GheNgoiAdapter.ItemInt
     @Override
     protected void onResume() {
         super.onResume();
-
-
-        for (Ghe ghe : gheChon) {
-            HoaDon hd = new HoaDon(listHoaDon.size() + 1, 1);
-            listHoaDon.add((hd));
-            Ve ve = new Ve(listVe.size() + 1, ghe.getIdGhe(), suat.getIdSuatChieu(), hd.getIdhoadon());
-            listVe.add(ve);
-        }
-        gheAdapter.setData(listGhe, listVe, listHoaDon, suat);
-        btnBuy.setVisibility(View.GONE);
-        gheChon.clear();
-        gheAdapter.setSize();
-        tvTotal.setText("0");
-    }
-    public static class MyZaloPayListener implements PayOrderListener{
-
-        @Override
-        public void onPaymentSucceeded(String s, String s1, String s2) {
-            Log.e("tranID", s);
-        }
-
-        @Override
-        public void onPaymentCanceled(String s, String s1) {
-            Log.e("tranID", s);
-        }
-
-        @Override
-        public void onPaymentError(ZaloPayError zaloPayError, String s, String s1) {
-            Log.e("tranID", s);
-        }
     }
 }

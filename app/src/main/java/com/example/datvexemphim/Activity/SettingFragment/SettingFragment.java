@@ -1,41 +1,27 @@
 package com.example.datvexemphim.Activity.SettingFragment;
 
 import android.app.AlertDialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-import com.example.datvexemphim.Activity.ForAll.ChonGhe;
 import com.example.datvexemphim.Activity.ForAll.MainActivity;
-import com.example.datvexemphim.Activity.PhimFragment.Movie_Detail;
 import com.example.datvexemphim.Model.Account;
-import com.example.datvexemphim.Model.CreateOrder;
-import com.example.datvexemphim.Model.Ghe;
 import com.example.datvexemphim.Model.HoaDon;
 import com.example.datvexemphim.Model.KhachHang;
-import com.example.datvexemphim.Model.Ve;
 import com.example.datvexemphim.R;
-
-import org.json.JSONObject;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-
-import vn.zalopay.sdk.ZaloPayError;
-import vn.zalopay.sdk.ZaloPaySDK;
-import vn.zalopay.sdk.listeners.PayOrderListener;
 
 /**
  * A simple {@link Fragment} subclass.

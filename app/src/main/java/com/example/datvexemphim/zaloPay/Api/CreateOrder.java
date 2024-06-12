@@ -1,9 +1,8 @@
-package com.example.datvexemphim.Model;
+package com.example.datvexemphim.zaloPay.Api;
 
 
-import com.example.datvexemphim.Setting.AppInfo;
+import com.example.datvexemphim.zaloPay.Constant.AppInfo;
 import com.example.datvexemphim.zaloPay.Helper.Helpers;
-import com.example.datvexemphim.zaloPay.HttpProvider;
 
 import org.json.JSONObject;
 

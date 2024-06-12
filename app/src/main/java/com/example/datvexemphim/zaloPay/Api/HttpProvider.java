@@ -1,4 +1,4 @@
-package com.example.datvexemphim.zaloPay;
+package com.example.datvexemphim.zaloPay.Api;
 
 import android.util.Log;
 
@@ -13,10 +13,9 @@ import okhttp3.CipherSuite;
 import okhttp3.ConnectionSpec;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
+import okhttp3.RequestBody;
 import okhttp3.Response;
 import okhttp3.TlsVersion;
-import okhttp3.RequestBody;
-
 
 public class HttpProvider {
      public static JSONObject sendPost(String URL, RequestBody formBody) {

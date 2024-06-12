@@ -152,6 +152,12 @@ public class GheNgoiAdapter extends RecyclerView.Adapter<GheNgoiAdapter.ItemView
                             itemInterface.onItemClick(Integer.parseInt(tvGhe.getText().toString()), -1);
                         }
                     }else{
+                        if(gheStatusMap.get(ghe) == 1){
+                            ivGhe.setBackgroundResource(R.drawable.baseline_event_seat_24_none);
+                            gheStatusMap.put(ghe, 0);
+                            itemInterface.onItemClick(Integer.parseInt(tvGhe.getText().toString()), 0);
+                            size -= 1;
+                        }
 
                     }
 
