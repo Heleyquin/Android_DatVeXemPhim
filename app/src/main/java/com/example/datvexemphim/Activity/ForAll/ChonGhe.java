@@ -1,10 +1,8 @@
 package com.example.datvexemphim.Activity.ForAll;
 
-import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.StrictMode;
 import android.util.Log;
@@ -15,7 +13,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
-import androidx.annotation.RequiresApi;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -23,7 +21,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.example.datvexemphim.API.interceptor.TokenStorage;
 import com.example.datvexemphim.Adapter.PhimFragment.GheNgoiAdapter;
-import com.example.datvexemphim.Model.CreateOrder;
 import com.example.datvexemphim.Model.Ghe;
 import com.example.datvexemphim.Model.HoaDon;
 import com.example.datvexemphim.Model.Phim;
@@ -34,6 +31,8 @@ import com.example.datvexemphim.Services.AuthenticationService;
 import com.example.datvexemphim.Services.HoaDonService;
 import com.example.datvexemphim.Services.VeService;
 import com.example.datvexemphim.Setting.SpaceItemDecoration;
+import com.example.datvexemphim.zaloPay.Api.CreateOrder;
+import com.example.datvexemphim.zaloPay.Constant.AppInfo;
 
 import org.json.JSONObject;
 
@@ -48,6 +47,7 @@ import vn.zalopay.sdk.ZaloPayError;
 import vn.zalopay.sdk.ZaloPaySDK;
 import vn.zalopay.sdk.listeners.PayOrderListener;
 
+
 public class ChonGhe extends AppCompatActivity implements GheNgoiAdapter.ItemInterface{
 
     private SuatChieu suat;
@@ -55,7 +55,7 @@ public class ChonGhe extends AppCompatActivity implements GheNgoiAdapter.ItemInt
     private Phim phim;
     private RecyclerView rvGhe;
     private ImageView ivImage;
-    private TextView tvTenPhim, tvSub, tvDate, tvTime, tvTotal;
+    private TextView tvTenPhim, tvSub, tvDate, tvTime, tvTotal, tvPhong;
     private Button btnBuy;
     private GheNgoiAdapter gheAdapter;
     private List<Ghe> gheChon;
@@ -70,20 +70,25 @@ public class ChonGhe extends AppCompatActivity implements GheNgoiAdapter.ItemInt
         gheAdapter = new GheNgoiAdapter(this);
         gheChon = new ArrayList<>();
 
+        //Zalo
+        StrictMode.ThreadPolicy policy = new
+                StrictMode.ThreadPolicy.Builder().permitAll().build();
+        StrictMode.setThreadPolicy(policy);
+
+        // ZaloPay SDK Init
+        ZaloPaySDK.init(AppInfo.APP_ID, Environment.SANDBOX);
+
         taoVe();
         taoHoaDon();
 
-        //ZaloPay
-        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
-        StrictMode.setThreadPolicy(policy);
-        ZaloPaySDK.init(2554, Environment.SANDBOX);
 
         getDataIntent();
         setControl();
         setData();
         setAdapterRV();
         setEvent();
-        gheAdapter.setData(listGhe, listVe, listHoaDon);
+        gheAdapter.setData(listGhe, listVe, listHoaDon, suat);
+
 
 //        Toast.makeText(this, String.valueOf(gheAdapter.), Toast.LENGTH_LONG).show();
     }
@@ -105,10 +110,11 @@ public class ChonGhe extends AppCompatActivity implements GheNgoiAdapter.ItemInt
         tvSub = findViewById(R.id.tvSub);
         tvTime = findViewById(R.id.tvTime);
         tvTotal = findViewById(R.id.tvTotal);
+        tvPhong = findViewById(R.id.tvPhong);
         btnBuy = findViewById(R.id.btnBuy);
         tvDate = findViewById(R.id.tvDate);
 
-        btnBuy.setEnabled(false);
+        btnBuy.setVisibility(View.GONE);
     }
     private void getDataIntent() {
         Intent intent = getIntent();
@@ -124,6 +130,7 @@ public class ChonGhe extends AppCompatActivity implements GheNgoiAdapter.ItemInt
         tvTime.setText(String.valueOf(phim.getThoiLuong()));
         tvTotal.setText("0");
         tvDate.setText(suat.getNgayChieu().substring(0,10));
+        tvPhong.setText(String.valueOf(suat.getId_phong()));
     }
     public void setAdapterRV(){
         rvGhe.addItemDecoration(new SpaceItemDecoration(15));
@@ -149,81 +156,83 @@ public class ChonGhe extends AppCompatActivity implements GheNgoiAdapter.ItemInt
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         CreateOrder orderApi = new CreateOrder();
+
                         try {
-                            double totalDouble = Double.parseDouble(tvTotal.getText().toString());
-                            String total = String.valueOf((int) totalDouble);
+                            double price = Double.parseDouble(tvTotal.getText().toString());
+                            String total = String.valueOf((int)price);
                             JSONObject data = orderApi.createOrder(total);
                             String code = data.getString("return_code");
+                            Toast.makeText(getApplicationContext(), "return_code: " + code, Toast.LENGTH_LONG).show();
                             if (code.equals("1")) {
                                 String token = data.getString("zp_trans_token");
                                 ZaloPaySDK.getInstance().payOrder(ChonGhe.this, token, "demozpdk://app", new PayOrderListener() {
-//                                    @Override
-//                                    public void onPaymentSucceeded(String s, String s1, String s2) {
-//                                        Toast.makeText(ChonGhe.this, "Thanh toán thành công!", Toast.LENGTH_SHORT).show();
-////                                        dialog.dismiss();
-//                                    }
-//
-//                                    @Override
-//                                    public void onPaymentCanceled(String s, String s1) {
-//                                        Toast.makeText(ChonGhe.this, "Huy thanh toan!", Toast.LENGTH_SHORT).show();
-//
-//                                    }
-//
-//                                    @Override
-//                                    public void onPaymentError(ZaloPayError zaloPayError, String s, String s1) {
-//                                        Toast.makeText(ChonGhe.this, "Thanh toan loi!", Toast.LENGTH_SHORT).show();
-//
-//                                    }
                                     @Override
-                                    public void onPaymentSucceeded(final String transactionId, final String transToken, final String appTransID) {
-                                        Toast.makeText(ChonGhe.this, "Thanh toán thành công!", Toast.LENGTH_SHORT).show();
-//                                        for(Ghe ghe:gheChon){
-//                                            HoaDon hd = new HoaDon(listHoaDon.size()+1, 1);
-//                                            listHoaDon.add((hd));
-//                                            Ve ve = new Ve(listVe.size()+1, ghe.getIdGhe(), suat.getIdSuatChieu(), hd.getIdhoadon());
-//                                            listVe.add(ve);
-//                                        }
+                                    public void onPaymentSucceeded(String s, String s1, String s2) {
+                                        runOnUiThread(new Runnable() {
+                                            @Override
+                                            public void run() {
+                                                // for (Ghe ghe : gheChon) {
+                                                //     HoaDon hd = new HoaDon(listHoaDon.size() + 1, 1);
+                                                //     listHoaDon.add((hd));
+                                                //     Ve ve = new Ve(listVe.size() + 1, ghe.getIdGhe(), suat.getIdSuatChieu(), hd.getIdhoadon());
+                                                //     listVe.add(ve);
+                                                // }
+                                                Map<String, Object> data = new HashMap<>();
+                                                data.put("idGhe", getIdGheList(gheChon));
+                                                data.put("suatChieu", suat.getIdSuatChieu());
+                                                data.put("username", TokenStorage.getAccessToken());
+                                                VeService.addVe(data);
+                                                taoVe();
+                                                taoHoaDon();
+                                                gheAdapter.setData(listGhe, listVe, listHoaDon, suat);
+                                                btnBuy.setVisibility(View.GONE);
+                                                gheChon.clear();
+                                                gheAdapter.setSize();
+                                                tvTotal.setText("0");
+                                                new AlertDialog.Builder(ChonGhe.this)
+                                                        .setTitle("Thanh toán thành công")
+                                                        .setMessage(String.format("TransactionId: %s - TransToken: %s", s, s1))
+                                                        .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                                            @Override
+                                                            public void onClick(DialogInterface dialog, int which) {
+                                                            }
+                                                        })
+                                                        .setNegativeButton("Cancel", null).show();
+                                            }
 
-                                        Map<String, Object> data = new HashMap<>();
-                                        data.put("idGhe", getIdGheList(gheChon));
-                                        data.put("suatChieu", suat.getIdSuatChieu());
-                                        data.put("username", TokenStorage.getAccessToken());
-                                        VeService.addVe(data);
-
-                                        taoVe();
-                                        taoHoaDon();
-
-                                        gheAdapter.setData(listGhe, listVe, listHoaDon);
-                                        btnBuy.setEnabled(false);
-                                        gheChon.clear();
-                                        gheAdapter.setSize();
-                                        dialog.dismiss();
+                                        });
                                     }
 
                                     @Override
-                                    public void onPaymentCanceled(String zpTransToken, String appTransID) {
-                                        Toast.makeText(ChonGhe.this, "Thanh toán bị hủy!", Toast.LENGTH_SHORT).show();
-                                        gheAdapter.setData(listGhe, listVe, listHoaDon);
-                                        btnBuy.setEnabled(false);
-                                        gheChon.clear();
-                                        gheAdapter.setSize();
-                                        dialog.dismiss();
+                                    public void onPaymentCanceled(String s, String s1) {
+                                        new AlertDialog.Builder(ChonGhe.this)
+                                                .setTitle("Thanh toán bị huỷ")
+                                                .setMessage(String.format("zpTransToken: %s \n", s))
+                                                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                                    @Override
+                                                    public void onClick(DialogInterface dialog, int which) {
+                                                    }
+                                                })
+                                                .setNegativeButton("Cancel", null).show();
                                     }
 
                                     @Override
-                                    public void onPaymentError(ZaloPayError zaloPayError, String zpTransToken, String appTransID) {
-                                        Toast.makeText(ChonGhe.this, "Thanh toán thất bại!", Toast.LENGTH_SHORT).show();
-                                        gheAdapter.setData(listGhe, listVe, listHoaDon);
-                                        btnBuy.setEnabled(false);
-                                        gheChon.clear();
-                                        gheAdapter.setSize();
-                                        dialog.dismiss();
+                                    public void onPaymentError(ZaloPayError zaloPayError, String s, String s1) {
+                                        new AlertDialog.Builder(ChonGhe.this)
+                                                .setTitle("Thanh toán thất bại")
+                                                .setMessage(String.format("ZaloPayErrorCode: %s \nTransToken: %s", zaloPayError.toString(), s))
+                                                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                                    @Override
+                                                    public void onClick(DialogInterface dialog, int which) {
+                                                    }
+                                                })
+                                                .setNegativeButton("Cancel", null).show();
                                     }
                                 });
-                            } else{
-                                Toast.makeText(ChonGhe.this, "Không thể khởi tạo đơn hàng, xin lỗi quy khách vì sự cố!!" + code, Toast.LENGTH_SHORT).show();
                             }
-                        } catch (Exception ignored) {
+
+                        } catch (Exception e) {
+                            e.printStackTrace();
                         }
                     }
                 });
@@ -232,6 +241,7 @@ public class ChonGhe extends AppCompatActivity implements GheNgoiAdapter.ItemInt
                 "Huỷ",
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
+                        Log.e("tranID", "Huy");
                         dialog.dismiss();
                     }
                 });
@@ -239,15 +249,6 @@ public class ChonGhe extends AppCompatActivity implements GheNgoiAdapter.ItemInt
         AlertDialog alert11 = builder1.create();
         alert11.show();
     }
-
-//    private void paymentSuccess(String transactionId) {
-//        if(viewModel.getIsRoundTrip().getValue()) {
-//            viewModel.orderRoundTripTicket(transactionId);
-//        }
-//        else {
-//            viewModel.orderOneWayTicket(transactionId);
-//        }
-//    }
 
     @Override
     public void onItemClick(int id_ghe, int status) {
@@ -262,7 +263,7 @@ public class ChonGhe extends AppCompatActivity implements GheNgoiAdapter.ItemInt
                 }
             }
             if(gheChon.size() <= 0){
-                btnBuy.setEnabled(false);
+                btnBuy.setVisibility(View.GONE);
             }
         } else if (status == 1) {
             double total = Double.parseDouble(tvTotal.getText().toString());
@@ -275,20 +276,19 @@ public class ChonGhe extends AppCompatActivity implements GheNgoiAdapter.ItemInt
                 }
             }
             if(!gheChon.isEmpty()){
-                btnBuy.setEnabled(true);
+                btnBuy.setVisibility(View.VISIBLE);
             }
-        }else{
-            System.out.println("hwllo");
         }
     }
+
     @Override
-    protected void onNewIntent(Intent intent) {
+    protected void onNewIntent(@NonNull Intent intent) {
         super.onNewIntent(intent);
         ZaloPaySDK.getInstance().onResult(intent);
     }
-    public List<Integer> getIdGheList(List<Ghe> gheList) {
-        return gheList.stream()
-                .map(Ghe::getIdGhe)
-                .collect(Collectors.toList());
+
+    @Override
+    protected void onResume() {
+        super.onResume();
     }
 }

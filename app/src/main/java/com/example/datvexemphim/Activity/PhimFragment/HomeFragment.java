@@ -1,5 +1,6 @@
 package com.example.datvexemphim.Activity.PhimFragment;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -8,6 +9,7 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.widget.SearchView;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -22,6 +24,7 @@ import com.example.datvexemphim.Services.SuatChieuService;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -40,8 +43,9 @@ public class HomeFragment extends Fragment implements MoviesAdapter.ItemInterfac
     private String mParam2;
     private RecyclerView rvMainDisplay;
     private MoviesAdapter adapter;
-    private List<Phim> data;
+    private List<Phim> dataFul, dataFil;
     private List<SuatChieu> dsSuat;
+    private SearchView svSearch;
 
     public HomeFragment() {
         // Required empty public constructor
@@ -83,10 +87,35 @@ public class HomeFragment extends Fragment implements MoviesAdapter.ItemInterfac
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+        svSearch = view.findViewById(R.id.SearchBar);
         rvMainDisplay = view.findViewById(R.id.rvMainDisplay);
+
         tempData();
         setData();
-        adapter.setData(data, dsSuat);
+        adapter.setData(dataFul, dsSuat);
+        svSearch.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                filter(query);
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                filter(newText);
+                return false;
+            }
+            @SuppressLint("NotifyDataSetChanged")
+            private void filter(String s) {
+                dataFul.clear();
+                dataFul.addAll(dataFil.stream()
+                        .filter(phim -> phim.getTen().toLowerCase().contains(s.toLowerCase()))
+                        .collect(Collectors.toList()));
+                adapter.notifyDataSetChanged();
+            }
+        });
+
     }
     private void setData() {
         rvMainDisplay.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -101,8 +130,9 @@ public class HomeFragment extends Fragment implements MoviesAdapter.ItemInterfac
         startActivity(intent);
     }
     public void tempData(){
-        data = new ArrayList<>();
-        PhimService.getAllPhim(data, adapter);
+        dataFil = new ArrayList<>();
+        dataFul = new ArrayList<>();
+        PhimService.getAllPhim(dataFil, adapter, dataFul);
         dsSuat = new ArrayList<>();
 //        dsSuat.add(new SuatChieu(1, "10:30", "English", "05/06/2024", "VietSub", 100000, 1, 1, 1));
 //        dsSuat.add(new SuatChieu(2, "12:30", "English", "05/06/2024", "VietSub", 100000, 1, 1, 1));

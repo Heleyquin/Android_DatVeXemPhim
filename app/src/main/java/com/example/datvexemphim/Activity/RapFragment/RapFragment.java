@@ -1,5 +1,6 @@
 package com.example.datvexemphim.Activity.RapFragment;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -8,6 +9,7 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.widget.SearchView;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -48,11 +50,12 @@ public class RapFragment extends Fragment implements RapAdapter.ItemInterface{
     private String mParam2;
     private RecyclerView rvRap;
     private RapAdapter rapAdapter;
-    private List<Rap> dsRap;
+    private List<Rap> dsRap, dsRapFil;
     private List<Phim> dsPhim;
     private List<SuatChieu> dsSuatChieu;
     private List<Phong> dsPhong;
     private List<Ghe> dsGhe;
+    private SearchView SearchBar;
 
     public RapFragment() {
         // Required empty public constructor
@@ -95,6 +98,7 @@ public class RapFragment extends Fragment implements RapAdapter.ItemInterface{
         return inflater.inflate(R.layout.fragment_rap, container, false);
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -106,8 +110,32 @@ public class RapFragment extends Fragment implements RapAdapter.ItemInterface{
         taoSuatChieu();
 
         rvRap = view.findViewById(R.id.rvRap);
+        SearchBar = view.findViewById(R.id.SearchBar);
+
         setData();
-        rapAdapter.setData(dsRap);
+        rapAdapter.setData(dsRapFil);
+
+        SearchBar.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                filter(query);
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                filter(newText);
+                return false;
+            }
+            private void filter(String s) {
+                dsRapFil.clear();
+                dsRapFil.addAll(dsRap.stream()
+                        .filter(rap -> rap.getTenRap().toLowerCase().contains(s.toLowerCase()))
+                        .collect(Collectors.toList()));
+                rapAdapter.notifyDataSetChanged();
+            }
+        });
+
 
     }
 
@@ -222,9 +250,10 @@ public class RapFragment extends Fragment implements RapAdapter.ItemInterface{
     }
     public void taoRap(){
         dsRap = new ArrayList<>();
+        dsRapFil = new ArrayList<>();
 //        dsRap.add(new Rap(1, "Rạp Hồ Chí Minh", "Q9, Tp.Thu Duc, TP.HCM"));
 //        dsRap.add(new Rap(2, "Rạp Hà Nội", "Q.Hoàng Mai, P.Hai Bà Trưng, Hà Nội"));
 //        dsRap.add(new Rap(3, "Rạp Thanh Hoá", "P.Tào Xuyên, Tp.Thanh Hoá, Tỉnh Thanh Hoá"));
-        RapService.getAllRap(dsRap, rapAdapter);
+        RapService.getAllRap(dsRap, rapAdapter, dsRapFil);
     }
 }

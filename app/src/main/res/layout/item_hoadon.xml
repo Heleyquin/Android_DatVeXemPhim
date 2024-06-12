@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:stretchColumns="*"
+    android:background="@drawable/round">
+
+    <TableRow>
+
+        <TextView
+            android:id="@+id/tvMaHD"
+            android:layout_width="10dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="40dp"
+            android:layout_marginStart="25dp"
+            android:text="1"
+            android:textSize="15dp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/tvSoVe"
+            android:layout_width="5dp"
+            android:layout_height="wrap_content"
+            android:text="1"
+            android:textSize="15dp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/tvTenPhim"
+            android:layout_width="70dp"
+            android:layout_height="wrap_content"
+            android:text="Nhung vi than khong lo sieu to khung khiep ai cap"
+            android:textSize="15dp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/tvTenRap"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:text="Ten Rap"
+            android:textSize="15dp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/tvTien"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="10dp"
+            android:text="400000"
+            android:textSize="15dp"
+            android:textStyle="bold" />
+    </TableRow>
+
+</TableLayout>

@@ -8,7 +8,7 @@ android {
 
     defaultConfig {
         applicationId = "com.example.datvexemphim"
-        minSdk = 26
+        minSdk = 21
         targetSdk = 34
         versionCode = 1
         versionName = "1.0"
@@ -56,7 +56,7 @@ dependencies {
     implementation("com.github.bumptech.glide:glide:4.16.0")
     implementation ("androidx.recyclerview:recyclerview:1.3.2")
     implementation("com.squareup.okhttp3:okhttp:4.12.0")
-    implementation("commons-codec:commons-codec:1.15")
+    implementation("commons-codec:commons-codec:1.17.0")
 
 
 }

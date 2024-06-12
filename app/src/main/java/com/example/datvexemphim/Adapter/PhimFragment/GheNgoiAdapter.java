@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.datvexemphim.Model.Ghe;
 import com.example.datvexemphim.Model.HoaDon;
+import com.example.datvexemphim.Model.SuatChieu;
 import com.example.datvexemphim.Model.Ve;
 import com.example.datvexemphim.R;
 import com.example.datvexemphim.Services.HoaDonService;
@@ -32,6 +33,7 @@ public class GheNgoiAdapter extends RecyclerView.Adapter<GheNgoiAdapter.ItemView
     Map<Ghe, Integer> gheStatusMap;//0 chưa chon; 1// Đang cn; 2//Khong duoc chon
     private ItemInterface itemInterface;
     private int size;
+    private SuatChieu suat;
 
     public GheNgoiAdapter(ItemInterface itemInterface) {
 
@@ -57,10 +59,11 @@ public class GheNgoiAdapter extends RecyclerView.Adapter<GheNgoiAdapter.ItemView
     }
 
     @SuppressLint("NotifyDataSetChanged")
-    public void setData(List<Ghe> list, List<Ve> listVe, List<HoaDon> listHoaDon) {
+    public void setData(List<Ghe> list, List<Ve> listVe, List<HoaDon> listHoaDon, SuatChieu suat) {
         this.listGhe = list;
         this.listVe = listVe;
         this.listHoaDon = listHoaDon;
+        this.suat = suat;
         gheStatus();
         notifyDataSetChanged();
     }
@@ -68,7 +71,13 @@ public class GheNgoiAdapter extends RecyclerView.Adapter<GheNgoiAdapter.ItemView
     @Override
     public void onBindViewHolder(@NonNull GheNgoiAdapter.ItemViewHolder holder, int position) {
         Ghe ghe = listGhe.get(position);
-        Set<Integer> temp = listVe.stream()
+        List<Ve> veOfSuat = new ArrayList<>();
+        for(Ve ve:listVe){
+            if(ve.getIdSuatChieu() == suat.getIdSuatChieu()){
+                veOfSuat.add(ve);
+            }
+        }
+        Set<Integer> temp = veOfSuat.stream()
                 .map(Ve::getId_ghe)
                 .map(Ghe::getIdGhe)
                 .collect(Collectors.toSet());
@@ -148,6 +157,12 @@ public class GheNgoiAdapter extends RecyclerView.Adapter<GheNgoiAdapter.ItemView
                             itemInterface.onItemClick(Integer.parseInt(tvGhe.getText().toString()), -1);
                         }
                     }else{
+                        if(gheStatusMap.get(ghe) == 1){
+                            ivGhe.setBackgroundResource(R.drawable.baseline_event_seat_24_none);
+                            gheStatusMap.put(ghe, 0);
+                            itemInterface.onItemClick(Integer.parseInt(tvGhe.getText().toString()), 0);
+                            size -= 1;
+                        }
 
                     }
 

@@ -14,8 +14,17 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.DatVeXemPhim"
-        tools:targetApi="31"
-        tools:ignore="AppLinkUrlError">
+        tools:ignore="AppLinkUrlError"
+        tools:targetApi="34">
+        <activity
+            android:name=".Activity.SettingFragment.Detail_Account"
+            android:exported="false" />
+        <activity
+            android:name=".Activity.SettingFragment.History"
+            android:exported="false" />
+        <activity
+            android:name=".Activity.SettingFragment.User"
+            android:exported="false" />
         <activity
             android:name=".Activity.RapFragment.ByRap_Movie_Detail"
             android:exported="false" />
@@ -24,14 +33,14 @@
             android:exported="false" />
         <activity
             android:name=".Activity.ForAll.ChonGhe"
-            android:exported="false"
+            android:exported="true"
             android:launchMode="singleTask">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
-                <category android:name="android.intent.catagory.DEFAULT" />
-                <category android:name="android.intent.category.BROWSABLE"/>
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
                 <data android:scheme="demozpdk"
-                    android:host="app"/>
+                    android:host="app" />
             </intent-filter>
         </activity>
         <activity
@@ -54,4 +63,8 @@
         </activity>
     </application>
 
+    <queries>
+        <package android:name="vn.com.vng.zalopay" />
+        <package android:name="vn.com.vng.zalopay.sbmc" />
+    </queries>
 </manifest>

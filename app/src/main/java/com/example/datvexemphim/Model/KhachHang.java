@@ -7,13 +7,13 @@ public class KhachHang implements Serializable {
     private String ten;
     private String cccd;
     private String diachi;
-    private String gioiTinh;
+    private boolean gioiTinh;
     private int id_acc;
 
     public KhachHang() {
     }
 
-    public KhachHang(int id_kh, String ten, String cccd, String diachi, String gioiTinh, int id_acc) {
+    public KhachHang(int id_kh, String ten, String cccd, String diachi, boolean gioiTinh, int id_acc) {
         this.id_kh = id_kh;
         this.ten = ten;
         this.cccd = cccd;
@@ -54,11 +54,11 @@ public class KhachHang implements Serializable {
         this.diachi = diachi;
     }
 
-    public String getGioiTinh() {
+    public boolean getGioiTinh() {
         return gioiTinh;
     }
 
-    public void setGioiTinh(String gioiTinh) {
+    public void setGioiTinh(boolean gioiTinh) {
         this.gioiTinh = gioiTinh;
     }
 
