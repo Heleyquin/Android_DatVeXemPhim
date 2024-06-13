@@ -7,21 +7,32 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Adapter;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import com.example.datvexemphim.API.KhachHangAPIService;
+import com.example.datvexemphim.API.interceptor.TokenStorage;
 import com.example.datvexemphim.Activity.ForAll.MainActivity;
+import com.example.datvexemphim.Adapter.PhimFragment.RapAdapter;
 import com.example.datvexemphim.Model.Account;
 import com.example.datvexemphim.Model.HoaDon;
 import com.example.datvexemphim.Model.KhachHang;
 import com.example.datvexemphim.R;
+import com.example.datvexemphim.Services.AccountService;
+import com.example.datvexemphim.Services.HoaDonService;
+import com.example.datvexemphim.Services.KhachHangService;
+import com.example.datvexemphim.Services.UserSessionManager;
+import com.example.datvexemphim.Services.VeService;
 
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.CountDownLatch;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -42,6 +53,8 @@ public class SettingFragment extends Fragment {
     private KhachHang user;
     private Account tk;
     private List<HoaDon> dsHoaDon;
+
+    private UserSessionManager userSessionManager;
 
     public SettingFragment() {
         // Required empty public constructor
@@ -78,11 +91,9 @@ public class SettingFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-
-        createUser();
-        createAcc();
-        createHoaDon();
-
+//            createAcc();
+//            createUser();
+//            createHoaDon();
         return inflater.inflate(R.layout.fragment_setting, container, false);
     }
 
@@ -98,22 +109,16 @@ public class SettingFragment extends Fragment {
         tvUser.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(view.getContext(), User.class);
-
-                intent.putExtra("user", user);
-
-                startActivity(intent);
+                userSessionManager = new UserSessionManager(getContext());
+                KhachHangService.getKhachHangSetting(view.getContext(),userSessionManager.getUsername(), v);
             }
         });
 
         tvHistory.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(view.getContext(), History.class);
-
-                intent.putExtra("hd", (Serializable) getHoaDon(user.getId_kh()));
-
-                startActivity(intent);
+                userSessionManager = new UserSessionManager(getContext());
+                VeService.getAllVeSetting(view.getContext(),userSessionManager.getUsername());
             }
         });
 
@@ -127,11 +132,8 @@ public class SettingFragment extends Fragment {
         tvDoiMk.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(view.getContext(), Detail_Account.class);
-
-                intent.putExtra("tk", tk);
-
-                startActivity(intent);
+                userSessionManager = new UserSessionManager(getContext());
+                AccountService.getAccountSetting(v.getContext(), userSessionManager.getUsername());
             }
         });
     }
@@ -139,7 +141,7 @@ public class SettingFragment extends Fragment {
     private List<HoaDon> getHoaDon(int id_kh) {
         List<HoaDon> hdForUser = new ArrayList<>();
         for (HoaDon hd : dsHoaDon) {
-            if (hd.getId_kh() == id_kh) {
+            if (hd.getId_kh().getId_kh() == id_kh) {
                 hdForUser.add(hd);
             }
         }
@@ -153,20 +155,21 @@ public class SettingFragment extends Fragment {
     }
 
     private void createUser() {
-        user = new KhachHang(1, "Nguyen Dinh Phat", "038202007493", "Thanh Hoa", false, 1);
+        userSessionManager = new UserSessionManager(getContext());
+        KhachHang tempUser = KhachHangService.getKhachHang(userSessionManager.getUsername());
+        tempUser.setId_acc(tk);
+        user = tempUser;
     }
 
     private void createAcc() {
-        tk = new Account(1, "mk", "tk", "email", "KH");
+        userSessionManager = new UserSessionManager(getContext());
+        tk = AccountService.getAccount(userSessionManager.getUsername());
     }
 
     private void createHoaDon() {
         dsHoaDon = new ArrayList<>();
-        dsHoaDon.add(new HoaDon(1, 1));
-        dsHoaDon.add(new HoaDon(2, 1));
-        dsHoaDon.add(new HoaDon(3, 2));
-        dsHoaDon.add(new HoaDon(4, 2));
-        dsHoaDon.add(new HoaDon(5, 1));
+        RapAdapter rapAdapter = null;
+        HoaDonService.getAllHoaDon(dsHoaDon, rapAdapter);
     }
 
     private void showConfirmationDialogOut() {

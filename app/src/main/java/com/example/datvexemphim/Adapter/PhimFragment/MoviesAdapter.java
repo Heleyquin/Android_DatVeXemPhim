@@ -72,9 +72,11 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.ItemViewHo
         Phim phim = data.get(position);
         Glide.with(holder.ivImage).load(phim.getAnh()).into(holder.ivImage);
         holder.tvTitle.setText(phim.getTen().toUpperCase());
-        holder.tvDecript.setText(phim.getMoTa());
-        holder.tvTime.setText(String.valueOf(phim.getThoiLuong()));
-//        Log.e("Cove", String.valueOf(phimCoSuat(phim.getIdPhim())));
+        if(phim.getMoTa().equals(""))
+            holder.tvDecript.setText("Phim này không có mô tả");
+        else
+            holder.tvDecript.setText(phim.getMoTa());
+        holder.tvTime.setText(String.valueOf(phim.getThoiLuong()) + " phút");
         if(!phimCoSuat(phim.getIdPhim())){
             holder.btnDatVe.setVisibility(View.GONE);
         }

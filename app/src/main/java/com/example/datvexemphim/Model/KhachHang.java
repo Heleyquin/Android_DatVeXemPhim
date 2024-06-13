@@ -8,18 +8,26 @@ public class KhachHang implements Serializable {
     private String cccd;
     private String diachi;
     private boolean gioiTinh;
-    private int id_acc;
+    private Account account;
 
     public KhachHang() {
     }
 
-    public KhachHang(int id_kh, String ten, String cccd, String diachi, boolean gioiTinh, int id_acc) {
+    public KhachHang(int id_kh, String ten, String cccd, String diachi, boolean gioiTinh) {
         this.id_kh = id_kh;
         this.ten = ten;
         this.cccd = cccd;
         this.diachi = diachi;
         this.gioiTinh = gioiTinh;
-        this.id_acc = id_acc;
+    }
+
+    public KhachHang(int id_kh, String ten, String cccd, String diachi, boolean gioiTinh, Account account) {
+        this.id_kh = id_kh;
+        this.ten = ten;
+        this.cccd = cccd;
+        this.diachi = diachi;
+        this.gioiTinh = gioiTinh;
+        this.account = account;
     }
 
     public int getId_kh() {
@@ -62,11 +70,11 @@ public class KhachHang implements Serializable {
         this.gioiTinh = gioiTinh;
     }
 
-    public int getId_acc() {
-        return id_acc;
+    public Account getId_acc() {
+        return account;
     }
 
-    public void setId_acc(int id_acc) {
-        this.id_acc = id_acc;
+    public void setId_acc(Account account) {
+        this.account = account;
     }
 }

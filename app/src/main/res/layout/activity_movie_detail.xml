@@ -33,7 +33,6 @@
         android:layout_height="wrap_content"
         android:ellipsize="marquee"
         android:marqueeRepeatLimit="marquee_forever"
-        android:maxLines="1"
         android:paddingVertical="3dp"
         android:scrollHorizontally="true"
         android:singleLine="true"
@@ -79,7 +78,6 @@
             android:layout_height="wrap_content"
             android:ellipsize="marquee"
             android:marqueeRepeatLimit="marquee_forever"
-            android:maxLines="1"
             android:paddingVertical="3dp"
             android:scrollHorizontally="true"
             android:singleLine="true"
@@ -94,7 +92,6 @@
             android:layout_marginStart="3dp"
             android:ellipsize="marquee"
             android:marqueeRepeatLimit="marquee_forever"
-            android:maxLines="1"
             android:paddingVertical="3dp"
             android:scrollHorizontally="true"
             android:singleLine="true"
@@ -124,6 +121,7 @@
             android:id="@+id/tvNation"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:textColor="@color/black"
             android:text="QUOC GIA"
             android:textSize="18dp" />
     </LinearLayout>
@@ -147,6 +145,7 @@
 
         <TextView
             android:id="@+id/tvReleaseDate"
+            android:textColor="@color/black"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="ngay"
@@ -174,6 +173,7 @@
             android:id="@+id/tvAge"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:textColor="@color/black"
             android:text="tuoi"
             android:textSize="18dp" />
     </LinearLayout>

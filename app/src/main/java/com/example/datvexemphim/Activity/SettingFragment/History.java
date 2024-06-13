@@ -12,8 +12,8 @@ import androidx.core.view.WindowInsetsCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.datvexemphim.Adapter.Setting.HoaDonAdapter;
-import com.example.datvexemphim.Model.HoaDon;
+import com.example.datvexemphim.Adapter.Setting.VeAdapter;
+import com.example.datvexemphim.Model.Ve;
 import com.example.datvexemphim.Model.KhachHang;
 import com.example.datvexemphim.R;
 
@@ -21,8 +21,8 @@ import java.util.List;
 
 public class History extends AppCompatActivity {
 
-    private HoaDonAdapter hdAdapter;
-    private List<HoaDon> dsHoaDon;
+    private VeAdapter veAdapter;
+    private List<Ve> dsVe;
     private RecyclerView rvHD;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,19 +30,19 @@ public class History extends AppCompatActivity {
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_history);
 
-        hdAdapter = new HoaDonAdapter(this);
+        veAdapter = new VeAdapter(this);
 
         getDatIntent();
         setControl();
         setRV();
 
-        hdAdapter.setData(dsHoaDon);
+        veAdapter.setData(dsVe);
 
     }
 
     private void setRV() {
         rvHD.setLayoutManager(new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.VERTICAL, false));
-        rvHD.setAdapter(hdAdapter);
+        rvHD.setAdapter(veAdapter);
     }
 
     private void setControl() {
@@ -51,6 +51,6 @@ public class History extends AppCompatActivity {
 
     private void getDatIntent() {
         Intent intent = getIntent();
-        dsHoaDon = (List<HoaDon>) intent.getSerializableExtra("hd");
+        dsVe = (List<Ve>) intent.getSerializableExtra("ve");
     }
 }

@@ -12,6 +12,8 @@
         android:layout_height="wrap_content"
         android:text="CHỌN RẠP"
         android:textSize="40dp"
+        android:gravity="center"
+        android:textColor="@color/black"
         android:layout_marginTop="5dp"
         android:layout_marginBottom="5dp"
         android:textStyle="bold" />

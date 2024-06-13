@@ -11,44 +11,49 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.datvexemphim.Adapter.RapFragment.ByRapMoviesAdapter;
-import com.example.datvexemphim.Model.HoaDon;
+import com.example.datvexemphim.Model.Ve;
 import com.example.datvexemphim.Model.Ve;
 import com.example.datvexemphim.R;
 
 import java.util.List;
 
 
-public class HoaDonAdapter extends RecyclerView.Adapter<HoaDonAdapter.ItemViewHolder> {
-    private List<HoaDon> dsHoaDon;
+public class VeAdapter extends RecyclerView.Adapter<VeAdapter.ItemViewHolder> {
+    private List<Ve> dsVe;
     private Context context;
-    public HoaDonAdapter(Context context) {
+    public VeAdapter(Context context) {
         this.context = context;
     }
     @SuppressLint("NotifyDataSetChanged")
-    public void setData(List<HoaDon> dsHoaDon){
-        this.dsHoaDon = dsHoaDon;
+    public void setData(List<Ve> dsVe){
+        this.dsVe = dsVe;
         notifyDataSetChanged();
     }
     @NonNull
     @Override
-    public HoaDonAdapter.ItemViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public VeAdapter.ItemViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_hoadon, parent, false);
         return new ItemViewHolder(v);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull HoaDonAdapter.ItemViewHolder holder, int position) {
-        HoaDon hd = dsHoaDon.get(position);
+    public void onBindViewHolder(@NonNull VeAdapter.ItemViewHolder holder, int position) {
+        Ve ve = dsVe.get(position);
 
-        holder.tvMaHD.setText(String.valueOf(hd.getIdhoadon()));
+        holder.tvMaHD.setText(String.valueOf(ve.getIdHoaDon().getIdhoadon()));
+        holder.tvSoVe.setText(String.valueOf(ve.getIdVe()));
+        holder.tvTenPhim.setText(ve.getIdSuatChieu().getId_phim().getTen());
+        holder.tvTenRap.setText(ve.getId_ghe().getId_phong().getId_rap().getTenRap());
+        holder.tvTien.setText(String.valueOf(ve.getIdSuatChieu().getGia()));
+
 //        holder.tvTenRap.
 //        holder.tvTien.setText();
     }
 
     @Override
     public int getItemCount() {
-        if (dsHoaDon != null) {
-            return dsHoaDon.size();
+        if (dsVe != null) {
+            return dsVe.size();
         }
         return 0;
     }

@@ -6,12 +6,14 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
+    android:background="@color/violet"
     tools:context=".Activity.RapFragment.PhimByRap">
     <TextView
         android:id="@+id/tvTenRap"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Ten rap"
+        android:gravity="center"
         android:textSize="35dp"
         android:layout_marginTop="40dp"
         android:layout_marginBottom="10dp"

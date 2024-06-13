@@ -55,12 +55,12 @@ public class ByRapNgayChieuAdapter extends RecyclerView.Adapter<ByRapNgayChieuAd
     }
     @Override
     public void onBindViewHolder(@NonNull ByRapNgayChieuAdapter.ItemViewHolder holder, int position) {
-        SuatChieu date =data.get(position);
+        SuatChieu suat =data.get(position);
 
-        holder.tvDate.setText(date.getNgayChieu());
-        holder.tvTime.setText(date.getGioBatDau());
-        holder.tvSub.setText(date.getSub());
-        holder.tvPhong.setText(String.valueOf (date.getId_phong()));
+        holder.tvDate.setText(suat.getNgayChieu().substring(0,10));
+        holder.tvTime.setText(suat.getGioBatDau().substring(11,19));
+        holder.tvSub.setText(suat.getSub());
+        holder.tvPhong.setText(String.valueOf (suat.getId_phong().getIdPhong()));
     }
 
     @Override

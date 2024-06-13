@@ -1,13 +1,19 @@
 package com.example.datvexemphim.Services;
 
+import android.content.Context;
 import android.content.Intent;
 import android.widget.Toast;
 
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.datvexemphim.API.HoaDonAPIService;
 import com.example.datvexemphim.API.VeAPIService;
+import com.example.datvexemphim.Activity.SettingFragment.History;
+import com.example.datvexemphim.Model.HoaDon;
 import com.example.datvexemphim.Model.Ve;
 
+import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -41,6 +47,35 @@ public class VeService {
 
             @Override
             public void onFailure(Call<Void> call, Throwable t) {
+            }
+        });
+    }
+
+    public static void getAllVeSetting(Context context, String username) {
+        List<Ve> hdForUser = new ArrayList<>();
+        List<Ve> dsHoaDon = new ArrayList<>();
+        VeAPIService.service.getAllVe().enqueue(new Callback<List<Ve>>() {
+
+            @Override
+            public void onResponse(Call<List<Ve>> call, Response<List<Ve>> response) {
+                response.body().forEach(hoaDon -> {
+                    dsHoaDon.add(hoaDon);
+                });
+                for (Ve hd : dsHoaDon) {
+                    if (hd.getIdHoaDon().getId_kh().getId_acc().getTk().equals(username)) {
+                        hdForUser.add(hd);
+                    }
+                }
+                Intent intent = new Intent(context, History.class);
+
+                intent.putExtra("ve", (Serializable) hdForUser);
+
+                context.startActivity(intent);
+            }
+
+            @Override
+            public void onFailure(Call<List<Ve>> call, Throwable t) {
+
             }
         });
     }

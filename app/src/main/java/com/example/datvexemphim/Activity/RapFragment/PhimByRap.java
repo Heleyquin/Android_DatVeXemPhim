@@ -3,6 +3,7 @@ package com.example.datvexemphim.Activity.RapFragment;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
@@ -11,6 +12,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
 
 import com.example.datvexemphim.Adapter.RapFragment.ByRapMoviesAdapter;
 import com.example.datvexemphim.Model.Ghe;
@@ -42,45 +44,48 @@ public class PhimByRap extends AppCompatActivity implements ByRapMoviesAdapter.I
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_phim_by_rap);
 
-        adapter = new ByRapMoviesAdapter(this, getApplicationContext());
+        adapter = new ByRapMoviesAdapter(this, this);
 
         setDataIntent();
         setControl();
         setRV();
 
-        adapter.setData(dsPhimFil, dsSuatChieu, dsGhe, dsPhong, rap);
+        adapter.setData(dsPhim, dsSuatChieu, dsGhe, dsPhong, rap);
 
-        searchBar.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-            @Override
-            public boolean onQueryTextSubmit(String query) {
-                filter(query);
-                return false;
-            }
-
-            @Override
-            public boolean onQueryTextChange(String newText) {
-                filter(newText);
-                return false;
-            }
-            @SuppressLint("NotifyDataSetChanged")
-            private void filter(String s) {
-                dsPhimFil.clear();
-                dsPhimFil.addAll(dsPhim.stream()
-                        .filter(phim -> phim.getTen().toLowerCase().contains(s.toLowerCase()))
-                        .collect(Collectors.toList()));
-                adapter.notifyDataSetChanged();
-            }
-        });
+//        searchBar.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+//            @Override
+//            public boolean onQueryTextSubmit(String query) {
+//                filter(query);
+//                return false;
+//            }
+//
+//            @Override
+//            public boolean onQueryTextChange(String newText) {
+//                filter(newText);
+//                return false;
+//            }
+//            @SuppressLint("NotifyDataSetChanged")
+//            private void filter(String s) {
+//                dsPhimFil.clear();
+//                dsPhimFil.addAll(dsPhim.stream()
+//                        .filter(phim -> phim.getTen().toLowerCase().contains(s.toLowerCase()))
+//                        .collect(Collectors.toList()));
+//                adapter.notifyDataSetChanged();
+//            }
+//        });
 
     }
     private void setDataIntent() {
         Intent intent = getIntent();
         dsPhim = (List<Phim>) intent.getSerializableExtra("phims");
-        dsGhe = (List<Ghe>) intent.getSerializableExtra("ghes");
         dsSuatChieu = (List<SuatChieu>) intent.getSerializableExtra("suats");
+        dsGhe = (List<Ghe>) intent.getSerializableExtra("ghes");
         rap = (Rap) intent.getSerializableExtra("rap");
-        dsPhimFil = new ArrayList<>();
-        dsPhimFil.addAll(dsPhim);
+        dsPhong = (List<Phong>) intent.getSerializableExtra("phongs");
+//        dsPhimFil = new ArrayList<>();
+//        dsPhimFil.addAll(dsPhim);
+
+
     }
     private void setControl(){
         rvPhim = findViewById(R.id.rvPhim);
@@ -92,7 +97,6 @@ public class PhimByRap extends AppCompatActivity implements ByRapMoviesAdapter.I
     private void setRV(){
         rvPhim.setLayoutManager(new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.VERTICAL, false));
         rvPhim.setAdapter(adapter);
-
     }
 
     @Override
@@ -103,7 +107,7 @@ public class PhimByRap extends AppCompatActivity implements ByRapMoviesAdapter.I
         intent.putExtra("phims",(Serializable) dsPhim);
         intent.putExtra("suats",(Serializable) dsSuatChieu);
         intent.putExtra("ghes",(Serializable) dsGhe);
-        intent.putExtra("phongs",(Serializable) dsPhong);
+//        intent.putExtra("phongs",(Serializable) dsPhong);
         intent.putExtra("rap", rap);
         startActivity(intent);
     }

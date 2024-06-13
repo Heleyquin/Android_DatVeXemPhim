@@ -1,6 +1,7 @@
 package com.example.datvexemphim.Adapter.PhimFragment;
 
 import android.annotation.SuppressLint;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,6 +19,7 @@ import com.example.datvexemphim.R;
 import com.example.datvexemphim.Services.HoaDonService;
 import com.example.datvexemphim.Services.VeService;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -39,6 +41,7 @@ public class GheNgoiAdapter extends RecyclerView.Adapter<GheNgoiAdapter.ItemView
 
         this.itemInterface = itemInterface;
         size = 0;
+        setHasStableIds(false);
     }
 
     private void gheStatus() {
@@ -71,9 +74,10 @@ public class GheNgoiAdapter extends RecyclerView.Adapter<GheNgoiAdapter.ItemView
     @Override
     public void onBindViewHolder(@NonNull GheNgoiAdapter.ItemViewHolder holder, int position) {
         Ghe ghe = listGhe.get(position);
+
         List<Ve> veOfSuat = new ArrayList<>();
         for(Ve ve:listVe){
-            if(ve.getIdSuatChieu() == suat.getIdSuatChieu()){
+            if(ve.getIdSuatChieu().getIdSuatChieu() == suat.getIdSuatChieu()){
                 veOfSuat.add(ve);
             }
         }
@@ -85,14 +89,22 @@ public class GheNgoiAdapter extends RecyclerView.Adapter<GheNgoiAdapter.ItemView
             holder.ivGhe.setBackgroundResource(R.drawable.baseline_event_seat_24_sold);
             holder.ivGhe.setEnabled(false);
             gheStatusMap.put(ghe, 2);
-//            Log.e("HashMap",gheStatusMap.toString());
         } else {
-            holder.ivGhe.setBackgroundResource(R.drawable.baseline_event_seat_24_none);
+            if(gheStatusMap.get(ghe) == 1){
+                holder.ivGhe.setBackgroundResource(R.drawable.baseline_event_seat_24_selected);
+            }else if(gheStatusMap.get(ghe) == 0){
+                holder.ivGhe.setBackgroundResource(R.drawable.baseline_event_seat_24_none);
+            }
 //            holder.ivGhe.setTag(R.drawable.baseline_event_seat_24_none);
         }
+        Log.e("gheID", String.valueOf(listGhe.size()));
         holder.tvGhe.setText(String.valueOf(ghe.getIdGhe()));
-
     }
+
+//    @Override
+//    public long getItemId(int position) {
+//        return super.getItemId(position);
+//    }
 
     public Ghe getItem(int pos) {
         return listGhe.get(pos);
@@ -120,7 +132,7 @@ public class GheNgoiAdapter extends RecyclerView.Adapter<GheNgoiAdapter.ItemView
         VeService.getAllVe(listVe, this);
     }
 
-    public void taoHoaDon() {
+    public void taoHoaDon() throws IOException {
         listHoaDon = new ArrayList<>();
 //        listHoaDon.add(new HoaDon(1, 1));
 //        listHoaDon.add(new HoaDon(2, 2));
@@ -146,21 +158,21 @@ public class GheNgoiAdapter extends RecyclerView.Adapter<GheNgoiAdapter.ItemView
                         if (gheStatusMap.get(ghe) == 0 ) {
                             ivGhe.setBackgroundResource(R.drawable.baseline_event_seat_24_selected);
                             gheStatusMap.put(ghe, 1);
-                            itemInterface.onItemClick(Integer.parseInt(tvGhe.getText().toString()), 1);
+                            itemInterface.onItemClick(ghe.getIdGhe(), 1);
                             size += 1;
                         } else if (gheStatusMap.get(ghe) == 1) {
                             ivGhe.setBackgroundResource(R.drawable.baseline_event_seat_24_none);
                             gheStatusMap.put(ghe, 0);
-                            itemInterface.onItemClick(Integer.parseInt(tvGhe.getText().toString()), 0);
+                            itemInterface.onItemClick(ghe.getIdGhe(), 0);
                             size -= 1;
                         }else{
-                            itemInterface.onItemClick(Integer.parseInt(tvGhe.getText().toString()), -1);
+                            itemInterface.onItemClick(ghe.getIdGhe(), -1);
                         }
                     }else{
                         if(gheStatusMap.get(ghe) == 1){
                             ivGhe.setBackgroundResource(R.drawable.baseline_event_seat_24_none);
                             gheStatusMap.put(ghe, 0);
-                            itemInterface.onItemClick(Integer.parseInt(tvGhe.getText().toString()), 0);
+                            itemInterface.onItemClick(ghe.getIdGhe(), 0);
                             size -= 1;
                         }
 

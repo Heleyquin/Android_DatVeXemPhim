@@ -134,17 +134,6 @@ public class HomeFragment extends Fragment implements MoviesAdapter.ItemInterfac
         dataFul = new ArrayList<>();
         PhimService.getAllPhim(dataFil, adapter, dataFul);
         dsSuat = new ArrayList<>();
-//        dsSuat.add(new SuatChieu(1, "10:30", "English", "05/06/2024", "VietSub", 100000, 1, 1, 1));
-//        dsSuat.add(new SuatChieu(2, "12:30", "English", "05/06/2024", "VietSub", 100000, 1, 1, 1));
-//        dsSuat.add(new SuatChieu(3, "13:30", "English", "06/06/2024", "VietSub", 100000, 1, 1, 1));
-//        dsSuat.add(new SuatChieu(4, "10:30", "English", "05/06/2024", "VietSub", 100000, 1, 1, 2));
-//        dsSuat.add(new SuatChieu(5, "10:30", "English", "05/06/2024", "VietSub", 100000, 1, 3, 2));
-//        dsSuat.add(new SuatChieu(6, "16:30", "English", "06/06/2024", "VietSub", 100000, 1, 1, 3));
-//        dsSuat.add(new SuatChieu(7, "10:30", "English", "07/06/2024", "VietSub", 100000, 1, 2, 2));
-//        dsSuat.add(new SuatChieu(8, "10:30", "English", "08/06/2024", "VietSub", 100000, 1, 1, 2));
-//        dsSuat.add(new SuatChieu(9, "10:30", "English", "09/06/2024", "VietSub", 100000, 1, 1, 2));
-//        dsSuat.add(new SuatChieu(10, "10:30", "English", "10/06/2024", "VietSub", 100000, 1, 1, 2));
-//        dsSuat.add(new SuatChieu(11, "10:30", "English", "10/06/2024", "VietSub", 100000, 1, 1, 4));
         SuatChieuService.getAllSuatChieu(dsSuat, adapter);
     }
 }

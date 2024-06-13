@@ -26,6 +26,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class AuthenticationService {
+    private static UserSessionManager userSessionManager;
     public static void login(Map<String, String> data, Context context) {
         AuthenticationAPIService.service.login(data).enqueue(new Callback<JsonElement>() {
             @Override
@@ -33,10 +34,19 @@ public class AuthenticationService {
                 try {
                     // GET JSON RESPONSE.
                     JsonObject responseData = Objects.requireNonNull(response.body()).getAsJsonObject();
-                    String accessToken = responseData.get("accessToken").getAsString();
-                    TokenStorage.setAccessToken(accessToken);
-                    Intent intent = new Intent(context, Home.class);
-                    context.startActivity(intent);
+                    if(responseData.get("role").getAsString().equals("user")){
+                        String accessToken = responseData.get("accessToken").getAsString();
+                        userSessionManager = new UserSessionManager(context);
+                        // Store username
+                        userSessionManager.saveUsername(responseData.get("username").getAsString());
+                        userSessionManager.saveToken(accessToken);
+                        TokenStorage.setAccessToken(accessToken);
+                        Intent intent = new Intent(context, Home.class);
+                        context.startActivity(intent);
+                    }
+                    else{
+                        Toast.makeText(context, "admin không đăng nhập", Toast.LENGTH_SHORT).show();
+                    }
                 } catch (Exception e) {
                     Toast.makeText(context, "Thông tin đăng nhập không chính xác!", Toast.LENGTH_SHORT).show();
                 }

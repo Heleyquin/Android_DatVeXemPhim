@@ -15,6 +15,7 @@
         android:text="Lịch sử mua vé"
         android:textSize="30dp"
         android:layout_marginTop="35dp"
+        android:textColor="@color/black"
         android:layout_marginBottom="20dp"
         android:textStyle="bold"
         android:gravity="center"/>
@@ -28,18 +29,21 @@
                 android:layout_height="wrap_content"
                 android:text="HOÁ ĐƠN"
                 android:textSize="20dp"
+                android:textColor="@color/black"
                 android:layout_marginEnd="5dp"
                 android:textStyle="bold"/>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="20dp"
+                android:textColor="@color/black"
                 android:layout_marginEnd="5dp"
                 android:text="VÉ"
                 android:textStyle="bold"/>
             <TextView
                 android:layout_width="80dp"
                 android:layout_height="wrap_content"
+                android:textColor="@color/black"
                 android:textSize="20dp"
                 android:text="PHIM"
                 android:textStyle="bold"/>
@@ -47,6 +51,7 @@
                 android:id="@+id/tvTenRap"
                 android:layout_width="80dp"
                 android:layout_height="wrap_content"
+                android:textColor="@color/black"
                 android:textSize="20dp"
                 android:text="RẠP"
                 android:textStyle="bold"/>
@@ -55,6 +60,7 @@
                 android:layout_height="wrap_content"
                 android:textSize="20dp"
                 android:text="THANH TOÁN"
+                android:textColor="@color/black"
                 android:textStyle="bold"/>
         </TableRow>
     </TableLayout>

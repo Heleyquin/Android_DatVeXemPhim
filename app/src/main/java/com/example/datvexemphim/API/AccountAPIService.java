@@ -9,6 +9,7 @@ import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
+import retrofit2.http.PUT;
 import retrofit2.http.Path;
 
 public interface AccountAPIService extends APIService {
@@ -16,5 +17,8 @@ public interface AccountAPIService extends APIService {
 
     @GET("api/auth/account/username/{username}")
     Call<Account> getAccountByUsername(@Path("username") String username);
+
+    @PUT("api/auth/account")
+    Call<Void> changeInfo(@Body Account account);
 
 }

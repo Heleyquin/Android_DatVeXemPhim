@@ -137,7 +137,7 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvGhe"
         android:layout_width="match_parent"
-        android:layout_height="400dp"
+        android:layout_height="300dp"
         android:background="@color/yellow">
     </androidx.recyclerview.widget.RecyclerView>
     <LinearLayout
@@ -172,6 +172,8 @@
         android:layout_marginTop="20dp"
         android:backgroundTint="@color/blue"
         android:layout_gravity="center"
+        android:drawableRight="@mipmap/zalo_round"
+        android:background="@drawable/btnzalo"
         android:textSize="25dp"/>
 
 </LinearLayout>

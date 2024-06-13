@@ -15,9 +15,12 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.example.datvexemphim.API.interceptor.TokenStorage;
 import com.example.datvexemphim.Model.Account;
 import com.example.datvexemphim.Model.KhachHang;
 import com.example.datvexemphim.R;
+import com.example.datvexemphim.Services.AccountService;
+import com.example.datvexemphim.Services.UserSessionManager;
 
 public class Detail_Account extends AppCompatActivity {
     private EditText username, oldPass, newPass, rePassword;
@@ -40,8 +43,7 @@ public class Detail_Account extends AppCompatActivity {
         btnSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                if (oldPass.getText().toString().equals(tk.getMk())){
+//                if (oldPass.getText().toString().equals(tk.getMk())){
                     if(newPass.getText().toString().isEmpty()){
                         Toast.makeText(getApplicationContext(), "Mật khẩu mới không được để trống", Toast.LENGTH_LONG).show();
                     }else{
@@ -51,10 +53,10 @@ public class Detail_Account extends AppCompatActivity {
                             Toast.makeText(getApplicationContext(), "Mật khẩu mới không trùng nhau", Toast.LENGTH_LONG).show();
                         }
                     }
-                }
-                else {
-                    Toast.makeText(getApplicationContext(), "Mật khẩu cũ không hợp lệ", Toast.LENGTH_LONG).show();
-                }
+//                }
+//                else {
+//                    Toast.makeText(getApplicationContext(), "Mật khẩu cũ không hợp lệ", Toast.LENGTH_LONG).show();
+//                }
             }
         });
     }
@@ -84,7 +86,10 @@ public class Detail_Account extends AppCompatActivity {
                 "ĐỔI MẬT KHẨU",
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
-                        tk.setMk(newPass.getText().toString());
+//                        tk.setMk(newPass.getText().toString());
+                        UserSessionManager userSessionManager = new UserSessionManager(Detail_Account.this);
+
+                        AccountService.changePassword(userSessionManager.getUsername(), newPass.getText().toString(), Detail_Account.this);
                         dialog.dismiss();
                         Toast.makeText(getApplicationContext(), "Mật khẩu đã được đổi", Toast.LENGTH_LONG).show();
                         finish();

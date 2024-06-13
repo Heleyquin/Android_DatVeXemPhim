@@ -20,17 +20,26 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import com.example.datvexemphim.Activity.ForAll.MainActivity;
+import com.example.datvexemphim.Model.Account;
 import com.example.datvexemphim.Model.Ghe;
 import com.example.datvexemphim.Model.KhachHang;
 import com.example.datvexemphim.Model.Phim;
 import com.example.datvexemphim.Model.Rap;
 import com.example.datvexemphim.Model.SuatChieu;
 import com.example.datvexemphim.R;
+import com.example.datvexemphim.Services.AccountService;
+import com.example.datvexemphim.Services.KhachHangService;
+import com.example.datvexemphim.Services.UserSessionManager;
 
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class User extends AppCompatActivity {
+
+    private UserSessionManager userSessionManager;
 
     private KhachHang user;
     private ImageView ivImage;
@@ -100,6 +109,8 @@ public class User extends AppCompatActivity {
     private void getDataIntent() {
         Intent intent = getIntent();
         user = (KhachHang) intent.getSerializableExtra("user");
+//        userSessionManager = new UserSessionManager(User.this);
+//        user = KhachHangService.getKhachHang(userSessionManager.getUsername());
     }
 
     private void setControl() {
@@ -128,10 +139,15 @@ public class User extends AppCompatActivity {
                 "LƯU",
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
-                        user.setTen(edtTen.getText().toString());
-                        user.setCccd(edtCCCD.getText().toString());
-                        user.setDiachi(edtDiaChi.getText().toString());
-                        user.setGioiTinh(gender);
+                        userSessionManager = new UserSessionManager(User.this);
+                        Map<String, Object> data= new HashMap<>();
+                        data.put("ten", edtTen.getText().toString());
+                        data.put("cccd", edtCCCD.getText().toString());
+                        data.put("diaChi", edtDiaChi.getText().toString());
+                        if(gender)
+                            data.put("gioiTinh", "nam");
+                        else data.put("gioiTinh", "nu");
+                        KhachHangService.updateKhachHang(data, User.this, userSessionManager.getUsername());
                         dialog.dismiss();
                         finish();
                     }

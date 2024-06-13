@@ -29,6 +29,7 @@ import com.example.datvexemphim.Model.Ve;
 import com.example.datvexemphim.R;
 import com.example.datvexemphim.Services.AuthenticationService;
 import com.example.datvexemphim.Services.HoaDonService;
+import com.example.datvexemphim.Services.UserSessionManager;
 import com.example.datvexemphim.Services.VeService;
 import com.example.datvexemphim.Setting.SpaceItemDecoration;
 import com.example.datvexemphim.zaloPay.Api.CreateOrder;
@@ -36,6 +37,7 @@ import com.example.datvexemphim.zaloPay.Constant.AppInfo;
 
 import org.json.JSONObject;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -49,6 +51,7 @@ import vn.zalopay.sdk.listeners.PayOrderListener;
 
 
 public class ChonGhe extends AppCompatActivity implements GheNgoiAdapter.ItemInterface{
+    private UserSessionManager userSessionManager;
 
     private SuatChieu suat;
     private List<Ghe> listGhe;
@@ -79,7 +82,11 @@ public class ChonGhe extends AppCompatActivity implements GheNgoiAdapter.ItemInt
         ZaloPaySDK.init(AppInfo.APP_ID, Environment.SANDBOX);
 
         taoVe();
-        taoHoaDon();
+        try {
+            taoHoaDon();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
 
 
         getDataIntent();
@@ -99,7 +106,7 @@ public class ChonGhe extends AppCompatActivity implements GheNgoiAdapter.ItemInt
         VeService.getAllVe(listVe, gheAdapter);
     }
 
-    public void taoHoaDon() {
+    public void taoHoaDon() throws IOException {
         listHoaDon = new ArrayList<>();
         HoaDonService.getAllHoaDon(listHoaDon, gheAdapter);
     }
@@ -130,7 +137,7 @@ public class ChonGhe extends AppCompatActivity implements GheNgoiAdapter.ItemInt
         tvTime.setText(String.valueOf(phim.getThoiLuong()));
         tvTotal.setText("0");
         tvDate.setText(suat.getNgayChieu().substring(0,10));
-        tvPhong.setText(String.valueOf(suat.getId_phong()));
+        tvPhong.setText(String.valueOf(suat.getId_phong().getIdPhong()));
     }
     public void setAdapterRV(){
         rvGhe.addItemDecoration(new SpaceItemDecoration(15));
@@ -177,13 +184,18 @@ public class ChonGhe extends AppCompatActivity implements GheNgoiAdapter.ItemInt
                                                 //     Ve ve = new Ve(listVe.size() + 1, ghe.getIdGhe(), suat.getIdSuatChieu(), hd.getIdhoadon());
                                                 //     listVe.add(ve);
                                                 // }
+                                                userSessionManager = new UserSessionManager(ChonGhe.this);
                                                 Map<String, Object> data = new HashMap<>();
                                                 data.put("idGhe", getIdGheList(gheChon));
                                                 data.put("suatChieu", suat.getIdSuatChieu());
-                                                data.put("username", TokenStorage.getAccessToken());
+                                                data.put("username", userSessionManager.getUsername());
                                                 VeService.addVe(data);
                                                 taoVe();
-                                                taoHoaDon();
+                                                try {
+                                                    taoHoaDon();
+                                                } catch (IOException e) {
+                                                    throw new RuntimeException(e);
+                                                }
                                                 gheAdapter.setData(listGhe, listVe, listHoaDon, suat);
                                                 btnBuy.setVisibility(View.GONE);
                                                 gheChon.clear();
@@ -195,6 +207,9 @@ public class ChonGhe extends AppCompatActivity implements GheNgoiAdapter.ItemInt
                                                         .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                                                             @Override
                                                             public void onClick(DialogInterface dialog, int which) {
+                                                                dialog.dismiss();
+                                                                getDataIntent();
+                                                                recreate();
                                                             }
                                                         })
                                                         .setNegativeButton("Cancel", null).show();
@@ -241,7 +256,6 @@ public class ChonGhe extends AppCompatActivity implements GheNgoiAdapter.ItemInt
                 "Huỷ",
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
-                        Log.e("tranID", "Huy");
                         dialog.dismiss();
                     }
                 });
@@ -280,7 +294,11 @@ public class ChonGhe extends AppCompatActivity implements GheNgoiAdapter.ItemInt
             }
         }
     }
-
+    public List<Integer> getIdGheList(List<Ghe> gheList) {
+        return gheList.stream()
+                .map(Ghe::getIdGhe)
+                .collect(Collectors.toList());
+    }
     @Override
     protected void onNewIntent(@NonNull Intent intent) {
         super.onNewIntent(intent);

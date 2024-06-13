@@ -52,7 +52,7 @@ public class NgayChieuAdapter extends RecyclerView.Adapter<NgayChieuAdapter.Item
         holder.tvDate.setText(date.getNgayChieu().substring(0,10));
         holder.tvTime.setText(date.getGioBatDau().substring(11,19));
         holder.tvSub.setText(date.getSub());
-        holder.tvPhong.setText(String.valueOf (date.getId_phong()));
+        holder.tvPhong.setText(String.valueOf (date.getId_phong().getIdPhong()));
     }
 
     @Override

@@ -70,7 +70,7 @@ public class ByRapMoviesAdapter extends RecyclerView.Adapter<ByRapMoviesAdapter.
         Glide.with(holder.ivImage).load(phim.getAnh()).into(holder.ivImage);
         holder.tvTitle.setText(phim.getTen().toUpperCase());
         holder.tvDecript.setText(phim.getMoTa());
-        holder.tvTime.setText(String.valueOf(phim.getThoiLuong()));
+        holder.tvTime.setText(String.valueOf(phim.getThoiLuong()) + " phút");
         holder.btnDatVe.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

@@ -3,7 +3,6 @@ package com.example.datvexemphim.Services;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.datvexemphim.API.PhimAPIService;
-import com.example.datvexemphim.Adapter.PhimFragment.MoviesAdapter;
 import com.example.datvexemphim.Model.Phim;
 
 import java.util.List;
@@ -13,7 +12,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class PhimService {
-    public static void getAllPhim(List<Phim> phims, RecyclerView.Adapter adapter) {
+    public static void getAllPhim(List<Phim> phims, RecyclerView.Adapter adapter, List<Phim> dataFul) {
         PhimAPIService.service.getAllPhim().enqueue(new Callback<List<Phim>>() {
 
             @Override
@@ -24,6 +23,7 @@ public class PhimService {
                     phim.setNamPhatHanh(phim.getNamPhatHanh().substring(0,9));
                     phims.add(phim);
                 });
+                dataFul.addAll(phims);
                 adapter.notifyDataSetChanged();
             }
 

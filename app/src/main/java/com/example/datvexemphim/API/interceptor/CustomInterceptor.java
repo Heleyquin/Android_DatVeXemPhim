@@ -1,6 +1,11 @@
 package com.example.datvexemphim.API.interceptor;
 
+import android.content.Context;
+
 import androidx.annotation.NonNull;
+
+import com.example.datvexemphim.Activity.ForAll.ChonGhe;
+import com.example.datvexemphim.Services.UserSessionManager;
 
 import java.io.IOException;
 
@@ -9,7 +14,6 @@ import okhttp3.Request;
 import okhttp3.Response;
 
 public class CustomInterceptor implements Interceptor {
-    @NonNull
     @Override
     public Response intercept(Chain chain) throws IOException {
         // GET ORIGINAL REQUEST.
@@ -17,9 +21,11 @@ public class CustomInterceptor implements Interceptor {
         Request.Builder modifiedRequest = originalRequest.newBuilder()
                 .method(originalRequest.method(), originalRequest.body());
         // ADD HEADER TO REQUEST.
-        String accessToken = TokenStorage.getAccessToken();
+        UserSessionManager userSessionManager = new UserSessionManager(MyApp.getContext());
+        String accessToken = userSessionManager.getToken();
+
         if (accessToken != null) {
-            modifiedRequest = modifiedRequest.header("Authorization", String.format("Bearer %s", accessToken));
+            modifiedRequest = modifiedRequest.addHeader("Authorization", "Bearer " + accessToken);
         }
         // CONTINUE TO EXECUTE REQUEST.
         return chain.proceed(modifiedRequest.build());

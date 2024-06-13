@@ -2,6 +2,7 @@ package com.example.datvexemphim.Activity.PhimFragment;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -80,20 +81,7 @@ public class Movie_Detail extends AppCompatActivity implements NgayChieuAdapter.
     }
 
     private void setDataAdapter() {
-//        List<SuatChieu> dsChieuTheoPhim = new ArrayList<>();
-//        rapAdapter.notifyDataSetChanged();
-//        System.out.println("HERE");
-//        for (SuatChieu suat: dsSuatChieu){
-//            System.out.println(suat.toString());
-//        }
-//        for(SuatChieu suat : dsSuatChieu){
-//            if(suat.getId_phim() == phim.getIdPhim()){
-//                dsChieuTheoPhim.add(suat);
-//            }
-//        }
-//
         rapAdapter.setData(dsRap, dsPhong, dsSuatChieu, dsGhe, listPhim);
-//        Toast.makeText(getApplicationContext(), String.valueOf(dsChieuTheoPhim.size()), Toast.LENGTH_LONG).show();
     }
 
 
@@ -105,62 +93,19 @@ public class Movie_Detail extends AppCompatActivity implements NgayChieuAdapter.
 
     public void taoRap(){
         dsRap = new ArrayList<>();
-//        dsRap.add(new Rap(1, "Rạp Hồ Chí Minh", "Q9, Tp.Thu Duc, TP.HCM"));
-//        dsRap.add(new Rap(2, "Rạp Hà Nội", "Q.Hoàng Mai, P.Hai Bà Trưng, Hà Nội"));
-//        dsRap.add(new Rap(3, "Rạp Thanh Hoá", "P.Tào Xuyên, Tp.Thanh Hoá, Tỉnh Thanh Hoá"));
-        RapService.getAllRap(dsRap, rapAdapter);
+        List<Rap> dsRapFil = new ArrayList<>();
+        RapService.getAllRap(dsRap, rapAdapter,dsRapFil);
     }
     public void taoPhong(){
         dsPhong = new ArrayList<>();
-//        dsPhong.add(new Phong(1, "1HCM", 1));
-//        dsPhong.add(new Phong(2, "2HCM", 1));
-//        dsPhong.add(new Phong(3, "3HCM", 1));
-//        dsPhong.add(new Phong(4, "1HN", 2));
-//        dsPhong.add(new Phong(5, "2HN", 2));
-//        dsPhong.add(new Phong(6, "3HN", 2));
-//        dsPhong.add(new Phong(7, "1TH", 3));
-//        dsPhong.add(new Phong(8, "2TH", 3));
-//        dsPhong.add(new Phong(9, "3TH", 3));
         PhongService.getAllPhong(dsPhong, rapAdapter);
     }
     public void taoGhe(){
         dsGhe = new ArrayList<>();
-//        dsGhe.add(new Ghe(1, "D", "1", "1", 1));
-//        dsGhe.add(new Ghe(2, "D", "1", "2", 1));
-//        dsGhe.add(new Ghe(3, "D", "1", "3", 1));
-//        dsGhe.add(new Ghe(4, "D", "1", "4", 1));
-//        dsGhe.add(new Ghe(5, "D", "2", "5", 1));
-//        dsGhe.add(new Ghe(6, "D", "2", "6", 1));
-//        dsGhe.add(new Ghe(7, "D", "2", "7", 1));
-//        dsGhe.add(new Ghe(8, "D", "2", "8", 1));
-//        dsGhe.add(new Ghe(9, "D", "3", "9", 1));
-//        dsGhe.add(new Ghe(10, "D", "3", "10", 1));
-//        dsGhe.add(new Ghe(11, "D", "3", "11", 1));
-//        dsGhe.add(new Ghe(12, "D", "3", "12", 1));
-//        dsGhe.add(new Ghe(13, "D", "3", "13", 1));
-//        dsGhe.add(new Ghe(14, "D", "4", "14", 1));
-//        dsGhe.add(new Ghe(15, "D", "4", "15", 1));
-//        dsGhe.add(new Ghe(16, "D", "4", "16", 1));
-//        dsGhe.add(new Ghe(17, "D", "4", "17", 1));
-//        dsGhe.add(new Ghe(18, "D", "5", "18", 1));
-//        dsGhe.add(new Ghe(19, "D", "5", "19", 1));
-//        dsGhe.add(new Ghe(20, "D", "5", "20", 1));
-//        dsGhe.add(new Ghe(1, "D", "1", "1", 2));
         GheService.getAllGhe(dsGhe, rapAdapter);
     }
     public void taoSuatChieu(){
         dsSuatChieu = new ArrayList<>();
-//        dsSuatChieu.add(new SuatChieu(1, "10:30", "English", "05/06/2024", "VietSub", 100000, 1, 1, 1));
-//        dsSuatChieu.add(new SuatChieu(2, "12:30", "English", "05/06/2024", "VietSub", 100000, 1, 1, 1));
-//        dsSuatChieu.add(new SuatChieu(3, "13:30", "English", "06/06/2024", "VietSub", 100000, 1, 1, 1));
-//        dsSuatChieu.add(new SuatChieu(4, "10:30", "English", "05/06/2024", "VietSub", 100000, 1, 1,2));
-//        dsSuatChieu.add(new SuatChieu(5, "10:30", "English", "05/06/2024", "VietSub", 100000, 1, 3,2));
-//        dsSuatChieu.add(new SuatChieu(6, "16:30", "English", "06/06/2024", "VietSub", 100000, 1, 1, 3));
-//        dsSuatChieu.add(new SuatChieu(7, "10:30", "English", "07/06/2024", "VietSub", 100000, 1, 2,2));
-//        dsSuatChieu.add(new SuatChieu(8, "10:30", "English", "08/06/2024", "VietSub", 100000, 1, 1,2));
-//        dsSuatChieu.add(new SuatChieu(9, "10:30", "English", "09/06/2024", "VietSub", 100000, 1, 1,2));
-//        dsSuatChieu.add(new SuatChieu(10, "10:30", "English", "10/06/2024", "VietSub", 100000, 1, 1,2));
-//        dsSuatChieu.add(new SuatChieu(11, "10:30", "English", "10/06/2024", "VietSub", 100000, 1, 1,4));
         Intent intent = getIntent();
         phim = (Phim) intent.getSerializableExtra("movie");
         SuatChieuService.getSuatChieuByPhim(dsSuatChieu,phim.getIdPhim(), rapAdapter);
@@ -189,6 +134,7 @@ public class Movie_Detail extends AppCompatActivity implements NgayChieuAdapter.
         intent.putExtra("suat", suat);
         intent.putExtra("phim", phim);
         intent.putExtra("ghe",(Serializable) listGhe);
+        Log.e("tranID", String.valueOf(listGhe.size()));
         startActivity(intent);
     }
 
